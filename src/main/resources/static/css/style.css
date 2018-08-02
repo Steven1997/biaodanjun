@@ -1,0 +1,31 @@
+.container .jumtitle {
+    font-weight: bold;
+    font-size: 80px;
+}
+
+.jumback {
+    background-image: url("../img/banner.jpg");
+    background-size: cover;
+    margin: 0;
+}
+
+
+
+body {
+    padding:0;  /*去除内边距*/
+    border:0;   /*去除边框*/
+    margin:0;   /*去除外边距*/
+    background-image: url("../img/bg.jpg");
+    background-size: cover;
+}
+
+.navi {
+    margin: 0;
+}
+
+ul li p{
+    color: #9d9d9d;
+    padding: 15px;
+}
+
+
