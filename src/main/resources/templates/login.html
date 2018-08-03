@@ -7,7 +7,7 @@
     <title>登录 - 表单君</title>
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link th:href="@{css/login.css}" rel="stylesheet">
-    <link rel="shortcut icon" th:href="@{img/title.png}">
+    <link rel="shortcut icon" th:href="@{img/figure.png}">
 
 
 
@@ -33,7 +33,7 @@
                     </div>
                     <div  class="form-bottom">
                         <form id="logForm"role="form" action="/doLogin" method="post" class="login-form">
-                            <div class="form-group">
+                            <div id="group1" class="form-group">
                                 <label>用户名或邮箱</label>
                                 <span class="glyphicon glyphicon-user"></span>
                                 <input required type="text" name="username" placeholder="请输入登录用户名/邮箱"
@@ -41,7 +41,7 @@
                                        data-container="body" data-toggle="popover1" data-placement="right"
                                        data-trigger="manual">
                             </div>
-                            <div class="form-group">
+                            <div id="group2" class="form-group">
                                 <label >密码</label>
                                 <span class="glyphicon glyphicon-lock"></span>
                                 <input required type="password" maxlength="16"
@@ -54,7 +54,7 @@
                             <span class="glyphicon glyphicon-sunglasses"></span>
                             <div class="row">
 
-                                <div class="col-md-9 col-md-offset-0">
+                                <div id="group3" class="form-group col-md-9 col-md-offset-0">
                                     <input type="text" name="code" placeholder="请输入验证码"
                                            class="form-username form-control" id="form-code"
                                            data-container="body" data-toggle="popover3" data-placement="right"
@@ -68,7 +68,7 @@
 
                             <div class="row">
                                 <div class="form-group col-md-3 col-md-offset-0">
-                                    <input type="checkbox"></input>
+                                    <input type="checkbox">
                                     <label>记住我</label>
                                 </div>
                                 <div class="form-group col-md-3 col-md-offset-3">
@@ -96,9 +96,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel"></h4>
+                <h4 style="text-align: center;font-weight: bold" class="modal-title" id="myModalLabel"></h4>
             </div>
-            <div class="modal-body"></div>
+            <div style="text-align: center" class="modal-body"></div>
             <!--<div class="modal-footer">
                 <button id="confirm" type="button"  data-dismiss="modal" class="btn btn-primary">我知道了</button>
             </div>-->
@@ -111,16 +111,19 @@
 <script>
 
     $("#form-username").blur(function () {
+            $("#group1").removeClass('has-error');
             $("[data-toggle='popover1']").popover('hide');
         }
     );
 
     $("#form-password").blur(function () {
+            $("#group2").removeClass('has-error');
             $("[data-toggle='popover2']").popover('hide');
         }
     );
 
     $("#form-code").blur(function () {
+            $("#group3").removeClass('has-error');
             $("[data-toggle='popover3']").popover('hide');
         }
     );
@@ -129,6 +132,7 @@
         var username = $("#form-username").val();
         if(username == null || $.trim(username) == ''){ //检测用户名是否为空
             $("[data-toggle='popover1']").attr('data-content','请输入用户名或邮箱！');
+            $("#group1").addClass('has-error');
             $("[data-toggle='popover1']").popover('show');
             return false;
         }
@@ -138,6 +142,7 @@
     function checkPassword() {
         var password = $("#form-password").val();
         if(password == null || $.trim(password) == ''){
+            $("#group2").addClass('has-error');
             $("[data-toggle='popover2']").popover('show');
             return false;
         }
@@ -150,6 +155,7 @@
     function checkCode() {
         var code = $("#form-code").val();
         if(code == null || $.trim(code) == ''){
+            $("#group3").addClass('has-error');
             $("[data-toggle='popover3']").attr('data-content','请输入验证码！');
             $("[data-toggle='popover3']").popover('show');
             return false;

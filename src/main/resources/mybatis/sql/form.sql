@@ -29,11 +29,12 @@ CREATE TABLE `sform`(
   `uuid` VARCHAR(256) NOT NULL UNIQUE COMMENT '表单序列号',
   `formname` VARCHAR(128) NOT NULL COMMENT '表单名',
   `formpath` VARCHAR(256) NOT NULL COMMENT '表单路径',
-  `formstatus` INT(1) NOT NULL DEFAULT 0 COMMENT '表单状态',
+  `formstatus` INT(1) NOT NULL DEFAULT 0 COMMENT '表单状态:0表示未开始,1表示收集中,2表示已结束', 
   `formdesc` TEXT NOT NULL COMMENT '表单描述',
-  `begintime` DATETIME NOT NULL COMMENT '开始时间',
-  `endtime` DATETIME NOT NULL COMMENT '结束时间',
+  `begintime` VARCHAR(64) NOT NULL COMMENT '开始时间',
+  `endtime` VARCHAR(64) NOT NULL COMMENT '结束时间',
   `userid` INT(10) COMMENT '创建用户编号',
+  `password` VARCHAR(256) NOT NULL COMMENT '填写密码',
    FOREIGN KEY(userid) REFERENCES suser(userid) ON DELETE CASCADE ON UPDATE CASCADE
 )ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_bin;
 
@@ -45,8 +46,8 @@ DROP TABLE IF EXISTS `sfeedback`;
 CREATE TABLE `sfeedback`(
   `feedbackid` INT(10) PRIMARY KEY AUTO_INCREMENT COMMENT '反馈编号',
   `formid` INT(10) COMMENT '所属表单编号',
-  `feedbacktime` DATETIME NOT NULL COMMENT '反馈时间',
-  `feedbackstatus` INT(1) NOT NULL DEFAULT 0 COMMENT '反馈状态',
+  `feedbacktime` VARCHAR(64) NOT NULL COMMENT '反馈时间',
+  `feedbackstatus` INT(1) NOT NULL DEFAULT 0 COMMENT '反馈状态:0表示待处理,1表示已处理',
   `feedbackplace` VARCHAR(64) COMMENT '反馈地点',  
    FOREIGN KEY(formid)  REFERENCES sform(formid) ON DELETE CASCADE ON UPDATE CASCADE
 )ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_bin;

@@ -130,8 +130,8 @@ public class UserController {
 
     @GetMapping("/exit")
     public String exit(HttpSession session, SessionStatus sessionStatus){
-        session.invalidate();  //然后是让httpsession失效
-        return "index";
+        session.invalidate();
+        return "redirect:/index";
     }
 
 

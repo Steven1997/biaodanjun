@@ -9,7 +9,7 @@
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 
     <link th:href="@{css/login.css}" rel="stylesheet">
-    <link rel="shortcut icon" th:href="@{img/title.png}">
+    <link rel="shortcut icon" th:href="@{img/figure.png}">
 
 
 
@@ -38,7 +38,7 @@
                     </div>
                     <div   class="form-bottom">
                         <form id="regForm" role="form" action="/doRegister" method="post" class="login-form">
-                            <div class="form-group">
+                            <div id="group1" class="form-group">
                                 <label>用户名</label>
                                 <span class="glyphicon glyphicon-user"></span><span style="color: #dd4b39">&nbsp;*</span>
                                 <input required type="text" name="username" placeholder="请输入用户名"
@@ -47,7 +47,7 @@
                                        data-trigger="manual"
                                        data-content="用户名不能为空！">
                             </div>
-                            <div class="form-group">
+                            <div id="group2"class="form-group">
                                 <label>绑定邮箱</label>
                                 <span class="glyphicon glyphicon-envelope"></span><span style="color: #dd4b39">&nbsp;*</span>
                                 <input required type="text" name="email" placeholder="请输入绑定邮箱"
@@ -55,7 +55,7 @@
                                        data-container="body" data-toggle="popover2" data-placement="right"
                                        data-trigger="manual" data-content="邮箱不能为空！">
                             </div>
-                            <div class="form-group">
+                            <div id="group3" class="form-group">
                                 <label>密码</label>
                                 <span class="glyphicon glyphicon-lock"></span><span style="color: #dd4b39">&nbsp;*</span>
                                 <img id="demo_img"  th:src="@{img/visible.png}">
@@ -87,9 +87,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel"></h4>
+                <h4 style="text-align: center;font-weight: bold" class="modal-title" id="myModalLabel"></h4>
             </div>
-            <div class="modal-body"></div>
+            <div style="text-align: center" class="modal-body"></div>
             <div class="modal-footer">
                 <button id="confirm" type="button"  data-dismiss="modal" class="btn btn-primary">我知道了</button>
             </div>
@@ -169,6 +169,7 @@
         var username = $("#form-username").val();
         if(username == null || $.trim(username) == ''){ //检测用户名是否为空
             $("[data-toggle='popover1']").attr('data-content','用户名不能为空！');
+            $("#group1").addClass('has-error');
             $("[data-toggle='popover1']").popover('show');
             return false;
         }
@@ -184,11 +185,14 @@
                 success:function(data){          //data就是返回的json类型的数据
                     if(data['msg'] == "no"){
                         $("[data-toggle='popover1']").attr('data-content','该用户名已被注册！');
+                        $("#group1").addClass('has-error');
                         $("[data-toggle='popover1']").popover('show');
                         return false;
                     }
                     else{
                         $("[data-toggle='popover1']").popover('hide');
+                        $("#group1").removeClass('has-error');
+                        $("#group1").addClass('has-success');
                         return true;
                     }
 
@@ -207,11 +211,13 @@
         var reg = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$");
         if(email == null || $.trim(email) == ''){
             $("[data-toggle='popover2']").attr('data-content','邮箱不能为空！');
+            $("#group2").addClass('has-error');
             $("[data-toggle='popover2']").popover('show');
             return false;
         }
         else if(!reg.test(email)) {
             $("[data-toggle='popover2']").attr('data-content','邮箱格式错误！');
+            $("#group2").addClass('has-error');
             $("[data-toggle='popover2']").popover('show');
             return false;
         }
@@ -227,10 +233,13 @@
                 success:function(data){          //data就是返回的json类型的数据
                     if(data['msg'] == "no"){
                         $("[data-toggle='popover2']").attr('data-content','该邮箱已被绑定！');
+                        $("#group2").addClass('has-error');
                         $("[data-toggle='popover2']").popover('show');
                         return false;
                     }
                     else{
+                        $("#group2").removeClass('has-error');
+                        $("#group2").addClass('has-success');
                         $("[data-toggle='popover2']").popover('hide');
                         return true;
                     }
@@ -249,10 +258,13 @@
     $("#form-password").on('input',function () {
         var password = $("#form-password").val();
         if(password == null || $.trim(password).length < 6 || $.trim(password).length > 16){
+            $("#group3").addClass('has-error');
             $("[data-toggle='popover3']").popover('show');
             return false;
         }
         else{
+            $("#group3").removeClass('has-error');
+            $("#group3").addClass('has-success');
             $("[data-toggle='popover3']").popover('hide');
             return true;
         }
@@ -261,6 +273,7 @@
             var username = $("#form-username").val();
             if(username == null || $.trim(username) == ''){ //检测用户名是否为空
                 $("[data-toggle='popover1']").attr('data-content','用户名不能为空！');
+                $("#group1").addClass('has-error');
                 $("[data-toggle='popover1']").popover('show');
                 return false;
             }
@@ -276,10 +289,13 @@
                     success:function(data){          //data就是返回的json类型的数据
                         if(data['msg'] == "no"){
                             $("[data-toggle='popover1']").attr('data-content','该用户名已被注册！');
+                            $("#group1").addClass('has-error');
                             $("[data-toggle='popover1']").popover('show');
                             return false;
                         }
                         else{
+                            $("#group1").removeClass('has-error');
+                            $("#group1").addClass('has-success');
                             $("[data-toggle='popover1']").popover('hide');
 
                         }
@@ -300,11 +316,13 @@
             var reg = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$");
             if(email == null || $.trim(email) == ''){
                 $("[data-toggle='popover2']").attr('data-content','邮箱不能为空！');
+                $("#group2").addClass('has-error');
                 $("[data-toggle='popover2']").popover('show');
                 return false;
             }
             else if(!reg.test(email)) {
                 $("[data-toggle='popover2']").attr('data-content','邮箱格式错误！');
+                $("#group2").addClass('has-error');
                 $("[data-toggle='popover2']").popover('show');
                 return false;
             }
@@ -320,10 +338,13 @@
                     success:function(data){          //data就是返回的json类型的数据
                         if(data['msg'] == "no"){
                             $("[data-toggle='popover2']").attr('data-content','该邮箱已被绑定！');
+                            $("#group2").addClass('has-error');
                             $("[data-toggle='popover2']").popover('show');
                             return false;
                         }
                         else{
+                            $("#group2").removeClass('has-error');
+                            $("#group2").addClass('has-success');
                             $("[data-toggle='popover2']").popover('hide');
 
                         }
@@ -341,9 +362,12 @@
             var password = $("#form-password").val();
             if(password == null || $.trim(password).length < 6 || $.trim(password).length > 16){
                 $("[data-toggle='popover3']").popover('show');
+                $("#group3").addClass('has-error');
                 return false;
             }
             else{
+                $("#group3").removeClass('has-error');
+                $("#group3").addClass('has-success');
                 $("[data-toggle='popover3']").popover('hide');
             }
             return true;

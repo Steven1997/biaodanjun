@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>搜索表单 - 表单君</title>
+
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{css/style.css}" rel="stylesheet">
+    <link rel="shortcut icon" th:href="@{img/figure.png}">
+
+</head>
+<body>
+<nav class="navbar navbar-inverse navi navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a style="margin-left: 50px" th:href="@{/index}">首页<span class="sr-only">(current)</span></a></li>
+                <li><a th:href="@{/design}">设计表单</a></li>
+                <li  class="active"><a th:href="@{/search}">搜索表单</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li th:if="${session.loginUser != null}"><p>欢迎您</p></li>
+                <li><p th:text="${session.loginUser?.getUsername()}"></p></li>
+                <li th:if="${session.loginUser == null}"><a  th:href="@{/login}">登录</a></li>
+                <li th:if="${session.loginUser == null}"><a th:href="@{/register}">注册</a></li>
+                <li th:if="${session.loginUser != null}" class="dropdown">
+                    <a href="#" style="margin-right: 40px" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">我的<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a th:href="@{/myform}">我的表单</a></li>
+                        <li><a th:href="@{/exit}">退出登录</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+
+
+<div class="container">
+    <div style="position: relative;top:300px" class="row">
+        <div class="input-group">
+            <input type="text" class="form-control input-lg">
+            <span  class="input-group-btn">
+               <a class="btn btn-primary btn-lg" th:href="@{/search}" role="button">
+                      搜索&nbsp;<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                  </a>
+            </span>
+        </div>
+    </div>
+</div>
+<div class="main_nav_bottom">
+    <nav  class="navbar navbar-inverse navbar-fixed-bottom">
+        <div  class="container" align="center">
+            <style>
+                .nav-tabs
+                {
+                    text-align: center;
+                    height: 40px;
+                    line-height: 40px;
+                }
+            </style>
+            <ul class="nav nav-tabs nav-tabs-justified">
+                <div class="row" align="center">
+                    <div class="col-md-4 col-sm-4 col-xs-4" align="center"><li><p><a style="text-decoration: none;color: #9d9d9d" href="#">联系作者</a></p></li></div>
+                    <div class="col-md-4 col-sm-4 col-xs-4" align="center"><li><p>© <span id="year"></span> habitdiary.cn</p></li></div>
+                    <div class="col-md-4 col-sm-4 col-xs-4" align="center"><li><p>浙ICP备17004687号</p></li></div>
+                </div>
+            </ul>
+        </div>
+    </nav>
+</div>
+
+
+
+
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+
+<script>
+    //关闭click.bs.dropdown.data-api事件，使顶级菜单可点击
+    $(document).off('click.bs.dropdown.data-api');
+    //自动展开
+    $('.nav .dropdown').mouseenter(function(){
+        $(this).addClass('open');
+    });
+    //自动关闭
+    $('.nav .dropdown').mouseleave(function(){
+        $(this).removeClass('open');
+    });
+
+    var mydate = new Date();
+    $('#year').text(mydate.getFullYear());
+</script>
+</html>

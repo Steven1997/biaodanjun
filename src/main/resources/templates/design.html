@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>设计表单 - 表单君</title>
+
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{css/style.css}" rel="stylesheet">
+    <link th:href="@{css/bootstrap-datetimepicker.min.css}" rel="stylesheet">
+    <link rel="shortcut icon" th:href="@{img/figure.png}">
+
+</head>
+<body>
+<div class="container">
+    <div class="row">
+<nav class="navbar navbar-inverse navi navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a style="margin-left: 50px" th:href="@{/index}">首页<span class="sr-only">(current)</span></a></li>
+                <li class="active"><a th:href="@{/design}">设计表单</a></li>
+                <li><a th:href="@{/search}">搜索表单</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li th:if="${session.loginUser != null}"><p>欢迎您</p></li>
+                <li><p th:text="${session.loginUser?.getUsername()}"></p></li>
+                <li th:if="${session.loginUser == null}"><a  th:href="@{/login}">登录</a></li>
+                <li th:if="${session.loginUser == null}"><a th:href="@{/register}">注册</a></li>
+                <li th:if="${session.loginUser != null}" class="dropdown">
+                    <a href="#" style="margin-right: 40px" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">我的<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a th:href="@{/myform}">我的表单</a></li>
+                        <li><a th:href="@{/exit}">退出登录</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+    </div>
+
+
+        <div class="row" style="margin-top: 130px">
+            <div style="margin-top: 25px" class="col-md-6 column">
+                <div style="border-radius: 45px;height: 400px" class="jumbotron">
+                    <h1 style="font-family: 楷体;font-weight: bold">
+                        表单基本信息
+                    </h1>
+                    <p style="position:relative;left:125px;font-family: 楷体;font-weight: bold">
+                        请在右侧设置表单基本信息
+                    </p>
+                    <p>
+                        <a style="position:relative;left:250px" class="btn btn-primary btn-lg" th:href="@{/index}">返回首页
+                            <span style="margin-top: 5px;padding-bottom: 10px" class="glyphicon glyphicon-chevron-right"></span>
+                        </a>
+                    </p>
+                    <p style="position: relative;bottom: 60px;width: 33%">
+                        <img th:src="@{img/figure.png}"/>
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-5 column">
+                <form role="form" action="/doDesign" method="post" >
+                    <div class="form-group">
+                        <label style="font-size: 20px" for="formname">表单标题</label>
+                        <input placeholder="请设置表单标题" required type="text" class="form-control" id="formname" name="formname" />
+                    </div>
+                    <div class="form-group">
+                        <label style="font-size: 20px" for="formdesc">表单描述</label>
+                        <textarea placeholder="请设置表单描述" required style="resize: none" class="form-control" id="formdesc" name="formdesc" ></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label style="font-size: 20px" for="begintime">开始时间</label>
+                        <input readonly placeholder="请设置表单开始收集的日期和时间" required type="text" class="form-control" id="begintime" name="begintime"/>
+                    </div>
+                    <div class="form-group">
+                        <label style="font-size: 20px" for="endtime">结束时间</label>
+                        <input  readonly placeholder="请设置表单结束收集的日期和时间" required type="text" class="form-control" id="endtime" name="endtime"/>
+                    </div>
+                    <div class="form-group">
+                        <label style="font-size: 20px" for="password">表单密码</label>
+                        <input placeholder="请设置表单密码" required type="password" class="form-control" id="password" name="password"/>
+                    </div>
+
+                <button style="position: relative;left: 180px" type="submit" class="btn btn-success btn-lg">提&nbsp;&nbsp;交</button>
+                </form>
+            </div>
+        </div>
+
+
+
+</div>
+
+
+<div class="main_nav_bottom">
+    <nav  class="navbar navbar-inverse navbar-fixed-bottom">
+        <div  class="container" align="center">
+            <style>
+                .nav-tabs
+                {
+                    text-align: center;
+                    height: 40px;
+                    line-height: 40px;
+                }
+            </style>
+            <ul class="nav nav-tabs nav-tabs-justified">
+                <div class="row" align="center">
+                    <div class="col-md-4 col-sm-4 col-xs-4" align="center"><li><p><a style="text-decoration: none;color: #9d9d9d" href="#">联系作者</a></p></li></div>
+                    <div class="col-md-4 col-sm-4 col-xs-4" align="center"><li><p>© <span id="year"></span> habitdiary.cn</p></li></div>
+                    <div class="col-md-4 col-sm-4 col-xs-4" align="center"><li><p>浙ICP备17004687号</p></li></div>
+                </div>
+            </ul>
+        </div>
+    </nav>
+</div>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 style="text-align: center;font-weight: bold" class="modal-title" id="myModalLabel"></h4>
+            </div>
+            <div style="text-align: center" class="modal-body"></div>
+            <!--<div class="modal-footer">
+                <button id="confirm" type="button"  data-dismiss="modal" class="btn btn-primary">我知道了</button>
+            </div>-->
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+
+
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script th:src="@{js/bootstrap-datetimepicker.min.js}"></script>
+<script th:src="@{js/bootstrap-datetimepicker.zh-CN.js}"></script>
+</body>
+
+<script>
+    //关闭click.bs.dropdown.data-api事件，使顶级菜单可点击
+    $(document).off('click.bs.dropdown.data-api');
+    //自动展开
+    $('.nav .dropdown').mouseenter(function(){
+        $(this).addClass('open');
+    });
+    //自动关闭
+    $('.nav .dropdown').mouseleave(function(){
+        $(this).removeClass('open');
+    });
+
+    var mydate = new Date();
+    $('#year').text(mydate.getFullYear());
+
+    $("#begintime").datetimepicker({//选择年月日
+        format: 'yyyy-mm-dd hh:ii',
+        language: 'zh-CN',
+        weekStart: 1,
+        todayBtn: 1,//显示‘今日’按钮
+        autoclose: 1,
+        pickerPosition: "top-left",
+        todayHighlight: 1,
+        startView: 3,
+        minView: 0,
+        clearBtn:true,//清除按钮
+        forceParse: 0
+    });
+
+    $("#endtime").datetimepicker({//选择年月日
+        format: 'yyyy-mm-dd hh:ii',
+        language: 'zh-CN',
+        weekStart: 1,
+        todayBtn: 1,//显示‘今日’按钮
+        autoclose: 1,
+        pickerPosition: "top-left",
+        todayHighlight: 1,
+        startView: 3,
+        minView: 0,
+        clearBtn:true,//清除按钮
+        forceParse: 0
+    });
+
+    $("form").submit(function () {
+        if($("#begintime").val() == '' || $("#endtime").val() == ''){
+            $('#myModalLabel').text('提交失败');
+            $('.modal-body').text('请务必填写表单开始收集和结束收集时间');
+            $("#myModal").modal("show");
+            setTimeout(function(){
+                $("#myModal").modal("hide");
+            },2000);
+            return false;
+        }
+
+
+        var begintime = new Date($("#begintime").val()).getTime();
+        var endtime = new Date($("#endtime").val()).getTime();
+        var duration = endtime - begintime;
+        if(duration < 1800000){
+            $('#myModalLabel').text('提交失败');
+            $('.modal-body').text('为了提高表单收集信息的准确性，请保证收集时间至少大于半小时');
+            $("#myModal").modal("show");
+            setTimeout(function(){
+                $("#myModal").modal("hide");
+            },2000);
+            return false;
+        }
+        else
+            return true;
+    })
+
+
+</script>
+</html>

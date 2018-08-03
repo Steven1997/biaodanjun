@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>首页 - 表单君</title>
+    <title>我的表单 - 表单君</title>
 
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
       <link th:href="@{css/style.css}" rel="stylesheet">
@@ -16,7 +16,7 @@
       <div class="container-fluid">
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               <ul class="nav navbar-nav">
-                  <li class="active"><a style="margin-left: 50px" th:href="@{/index}">首页<span class="sr-only">(current)</span></a></li>
+                  <li><a style="margin-left: 50px" th:href="@{/index}">首页<span class="sr-only">(current)</span></a></li>
                   <li><a th:href="@{/design}">设计表单</a></li>
                   <li><a th:href="@{/search}">搜索表单</a></li>
               </ul>
@@ -28,7 +28,7 @@
                   <li th:if="${session.loginUser != null}" class="dropdown">
                       <a href="#" style="margin-right: 40px" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">我的<span class="caret"></span></a>
                       <ul class="dropdown-menu">
-                          <li><a th:href="@{/myform}">我的表单</a></li>
+                          <li><a href="#">我的表单</a></li>
                           <li><a th:href="@{/exit}">退出登录</a></li>
                       </ul>
                   </li>
