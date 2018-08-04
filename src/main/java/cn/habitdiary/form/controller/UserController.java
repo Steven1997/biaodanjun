@@ -58,11 +58,11 @@ public class UserController {
         return data.toString();
     }
 
-    @PostMapping(value = "/doRegister")
+    //要设置produces,否则回调函数会出现中文乱码
+    @PostMapping(value = "/doRegister",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String doRegister(@Valid User user, BindingResult bindingResult,HttpSession session) throws JSONException {
         JSONObject data = new JSONObject();
-
         if (bindingResult.hasErrors()) {
             data.put("title","注册失败");
             data.put("content","请重新注册");

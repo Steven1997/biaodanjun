@@ -7,6 +7,7 @@ import cn.habitdiary.form.service.FormService;
 import cn.habitdiary.form.utils.ExcelUtils;
 import cn.habitdiary.form.utils.ObjectIOUtils;
 import cn.habitdiary.form.utils.UUIDUtils;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -55,6 +56,7 @@ public class FormServiceImpl implements FormService {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        password = DigestUtils.sha1Hex(password);
         formDao.addForm(uuid,formname,formpath,formstatus,formdesc,begintime,endtime,userid,password);
         //保存FormDefinition文件，保存Excel文件
         ExcelUtils.createExcel(formname,formpath,name);

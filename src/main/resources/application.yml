@@ -18,6 +18,7 @@ spring:
   devtools:
     restart:
       enabled: true
+
 # 配置mybatis
 mybatis:
   config-location: classpath:mybatis/mybatis-config.xml
