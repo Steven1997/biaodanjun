@@ -96,9 +96,25 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 style="text-align: center;font-weight: bold" class="modal-title" id="myModalLabel"></h4>
+                <h3  style="text-align: center;font-weight: bold" class="modal-title" id="myModalLabel"></h3>
             </div>
-            <div style="text-align: center" class="modal-body"></div>
+            <div style="text-align: center;font-size: 20px;color: black;" class="modal-body"></div>
+            <!--<div class="modal-footer">
+                <button id="confirm" type="button"  data-dismiss="modal" class="btn btn-primary">我知道了</button>
+            </div>-->
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModa2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3  style="text-align: center;font-weight: bold" class="modal-title" id="myModalLabe2">提示信息</h3>
+            </div>
+            <div id="warn" th:text="${error_msg}" style="text-align: center;font-size: 20px;color: black;" class="modal-body"></div>
             <!--<div class="modal-footer">
                 <button id="confirm" type="button"  data-dismiss="modal" class="btn btn-primary">我知道了</button>
             </div>-->
@@ -152,6 +168,17 @@
         return true;
     }
 
+
+    if($("#warn").text() != ''){
+        $("#myModa2").modal("show");
+        setTimeout(function(){
+            $("#myModa2").modal("hide");
+        },1000);
+    }
+
+
+
+
     function checkCode() {
         var code = $("#form-code").val();
         if(code == null || $.trim(code) == ''){
@@ -164,8 +191,6 @@
     }
 
     $("#submit").click(function(){
-
-
         if( checkUsername() && checkPassword() && checkCode()){
             var data = {};
             data['username'] = $.trim( $("#form-username").val());
@@ -196,5 +221,7 @@
             })
         }
     })
+
+
 </script>
 </html>

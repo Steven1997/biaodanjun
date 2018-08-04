@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>设计表单 - 表单君</title>
+    <title>表单基本信息 - 表单君</title>
 
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link th:href="@{css/style.css}" rel="stylesheet">
@@ -52,8 +52,9 @@
                         请在右侧设置表单基本信息
                     </p>
                     <p>
-                        <a style="position:relative;left:250px" class="btn btn-primary btn-lg" th:href="@{/index}">返回首页
-                            <span style="margin-top: 5px;padding-bottom: 10px" class="glyphicon glyphicon-chevron-right"></span>
+                        <a style="position:relative;left:250px" class="btn btn-primary btn-lg" th:href="@{/index}">
+                            <span style="margin-top: 5px;padding-bottom: 10px" class="glyphicon glyphicon-chevron-left"></span>
+                            返回首页
                         </a>
                     </p>
                     <p style="position: relative;bottom: 60px;width: 33%">
@@ -63,7 +64,7 @@
             </div>
             <div class="col-md-5 column">
                 <form role="form" action="/doDesign" method="post" >
-                    <div class="form-group">
+                    <div  class="form-group">
                         <label style="font-size: 20px" for="formname">表单标题</label>
                         <input placeholder="请设置表单标题" required type="text" class="form-control" id="formname" name="formname" />
                     </div>
@@ -72,19 +73,22 @@
                         <textarea placeholder="请设置表单描述" required style="resize: none" class="form-control" id="formdesc" name="formdesc" ></textarea>
                     </div>
                     <div class="form-group">
-                        <label style="font-size: 20px" for="begintime">开始时间</label>
+                        <label style="font-size: 20px" for="begintime">开始收集时间</label>
                         <input readonly placeholder="请设置表单开始收集的日期和时间" required type="text" class="form-control" id="begintime" name="begintime"/>
                     </div>
                     <div class="form-group">
-                        <label style="font-size: 20px" for="endtime">结束时间</label>
+                        <label style="font-size: 20px" for="endtime">结束收集时间</label>
                         <input  readonly placeholder="请设置表单结束收集的日期和时间" required type="text" class="form-control" id="endtime" name="endtime"/>
                     </div>
                     <div class="form-group">
                         <label style="font-size: 20px" for="password">表单密码</label>
-                        <input placeholder="请设置表单密码" required type="password" class="form-control" id="password" name="password"/>
+                        <input placeholder="请设置表单密码，填写者须凭密码填写" required type="password" class="form-control" id="password" name="password"/>
                     </div>
 
-                <button style="position: relative;left: 180px" type="submit" class="btn btn-success btn-lg">提&nbsp;&nbsp;交</button>
+                <button style="position: relative;left: 180px" type="submit" class="btn btn-success btn-lg">
+                    下一步
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                </button>
                 </form>
             </div>
         </div>
@@ -122,9 +126,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 style="text-align: center;font-weight: bold" class="modal-title" id="myModalLabel"></h4>
+                <h2 style="text-align: center;font-weight: bold" class="modal-title" id="myModalLabel"></h2>
             </div>
-            <div style="text-align: center" class="modal-body"></div>
+            <div style="text-align: center;font-size:20px" class="modal-body"></div>
             <!--<div class="modal-footer">
                 <button id="confirm" type="button"  data-dismiss="modal" class="btn btn-primary">我知道了</button>
             </div>-->
@@ -185,9 +189,11 @@
     });
 
     $("form").submit(function () {
-        if($("#begintime").val() == '' || $("#endtime").val() == ''){
+        if($.trim($("#formname").val()) == '' || $.trim($("#formdesc").val()) == ''
+        || $.trim($("#begintime").val()) == '' || $.trim($("#endtime").val()) == ''
+        || $.trim($("#password").val()) == ''){
             $('#myModalLabel').text('提交失败');
-            $('.modal-body').text('请务必填写表单开始收集和结束收集时间');
+            $('.modal-body').text('请填写所有信息，且不能使用空格');
             $("#myModal").modal("show");
             setTimeout(function(){
                 $("#myModal").modal("hide");
@@ -201,7 +207,7 @@
         var duration = endtime - begintime;
         if(duration < 1800000){
             $('#myModalLabel').text('提交失败');
-            $('.modal-body').text('为了提高表单收集信息的准确性，请保证收集时间至少大于半小时');
+            $('.modal-body').text('为提高信息收集的可靠性，请保证收集时间至少为30分钟');
             $("#myModal").modal("show");
             setTimeout(function(){
                 $("#myModal").modal("hide");

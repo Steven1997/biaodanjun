@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>表单项信息 - 表单君</title>
+
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{css/style.css}" rel="stylesheet">
+    <link th:href="@{css/bootstrap-datetimepicker.min.css}" rel="stylesheet">
+    <link rel="shortcut icon" th:href="@{img/figure.png}">
+
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <nav class="navbar navbar-inverse navi navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li><a style="margin-left: 50px" th:href="@{/index}">首页<span class="sr-only">(current)</span></a></li>
+                        <li class="active"><a th:href="@{/design}">设计表单</a></li>
+                        <li><a th:href="@{/search}">搜索表单</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li th:if="${session.loginUser != null}"><p>欢迎您</p></li>
+                        <li><p th:text="${session.loginUser?.getUsername()}"></p></li>
+                        <li th:if="${session.loginUser == null}"><a  th:href="@{/login}">登录</a></li>
+                        <li th:if="${session.loginUser == null}"><a th:href="@{/register}">注册</a></li>
+                        <li th:if="${session.loginUser != null}" class="dropdown">
+                            <a href="#" style="margin-right: 40px" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">我的<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a th:href="@{/myform}">我的表单</a></li>
+                                <li><a th:href="@{/exit}">退出登录</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
+    </div>
+
+
+    <div class="row" style="margin-top: 130px;margin-bottom: 100px">
+        <div style="margin-top: 25px" class="col-md-6 column">
+            <div style="border-radius: 45px;height: 400px" class="jumbotron">
+                <h1 style="position:relative;left:45px;font-family: 楷体;font-weight: bold">
+                    表单项信息
+                </h1>
+                <p style="position:relative;left:125px;font-family: 楷体;font-weight: bold">
+                    请在右侧设置表单项信息
+                </p>
+                <p>
+                    <a style="position:relative;left:250px" class="btn btn-primary btn-lg" th:href="@{/design}">
+                        <span style="margin-top: 5px;padding-bottom: 10px" class="glyphicon glyphicon-chevron-left"></span>
+                        上一步
+                    </a>
+                </p>
+                <p style="position: relative;bottom: 60px;width: 33%">
+                   <img th:src="@{img/figure.png}"/>
+                </p>
+            </div>
+        </div>
+        <div class="col-md-5 column">
+            <form role="form" action="/doEdit" method="post" >
+                <div style="display: none" class="form-group">
+                    <label style="font-size: 20px" for="formname">表单标题</label>
+                    <input th:value="${formname}" placeholder="请设置表单标题" required type="text" class="form-control" id="formname" name="formname" />
+                </div>
+                <div style="display: none" class="form-group">
+                    <label style="font-size: 20px" for="formdesc">表单描述</label>
+                    <input th:value="${formdesc}" placeholder="请设置表单描述" required style="resize: none" class="form-control" id="formdesc" name="formdesc" />
+                </div>
+                <div style="display: none" class="form-group">
+                    <label style="font-size: 20px" for="begintime">开始收集时间</label>
+                    <input th:value="${begintime}" readonly placeholder="请设置表单开始收集的日期和时间" required type="text" class="form-control" id="begintime" name="begintime"/>
+                </div>
+                <div style="display: none" class="form-group">
+                    <label style="font-size: 20px" for="endtime">结束收集时间</label>
+                    <input th:value="${endtime}" readonly placeholder="请设置表单结束收集的日期和时间" required type="text" class="form-control" id="endtime" name="endtime"/>
+                </div>
+                <div style="display: none" class="form-group">
+                    <label style="font-size: 20px" for="password">表单密码</label>
+                    <input th:value="${password}" placeholder="请设置表单密码，填写者须凭密码填写" required type="password" class="form-control" id="password" name="password"/>
+                </div>
+               <div style="margin-left: 100px;width: 600px" id="inputwrappers">
+                   <div>
+                       <label style="margin-left: 45px;font-size: 20px;font-weight: bolder">表单项名</label>
+                       <label style="margin-left: 80px;font-size: 20px;font-weight: bolder">填写提示语</label></div>
+                    <span><input required name="itemname[]"  placeholder="表单项名1" style="width: 150px" type="text"></span>
+                   <span><input required name="iteminfo[]"  placeholder="填写提示语1" style="width: 230px" type="text"></span>
+                   <span><button data-toggle="tooltip" data-placement="right"
+                                 title="添加表单项" id="add" style="width: 70px;height: 30px" type="button" class="btn btn-info"><span  class="glyphicon glyphicon-plus"></span></button></span>
+                    <br><br>
+                </div>
+
+                <button style="position: relative;left: 230px" type="submit" class="btn btn-success btn-lg">发布表单</button>
+            </form>
+        </div>
+    </div>
+
+
+
+</div>
+
+
+<div class="main_nav_bottom">
+    <nav  class="navbar navbar-inverse navbar-fixed-bottom">
+        <div  class="container" align="center">
+            <style>
+                .nav-tabs
+                {
+                    text-align: center;
+                    height: 40px;
+                    line-height: 40px;
+                }
+            </style>
+            <ul class="nav nav-tabs nav-tabs-justified">
+                <div class="row" align="center">
+                    <div class="col-md-4 col-sm-4 col-xs-4" align="center"><li><p><a style="text-decoration: none;color: #9d9d9d" href="#">联系作者</a></p></li></div>
+                    <div class="col-md-4 col-sm-4 col-xs-4" align="center"><li><p>© <span id="year"></span> habitdiary.cn</p></li></div>
+                    <div class="col-md-4 col-sm-4 col-xs-4" align="center"><li><p>浙ICP备17004687号</p></li></div>
+                </div>
+            </ul>
+        </div>
+    </nav>
+</div>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h2 style="text-align: center;font-weight: bold" class="modal-title" id="myModalLabel"></h2>
+            </div>
+            <div style="text-align: center;font-size:20px" class="modal-body"></div>
+            <!--<div class="modal-footer">
+                <button id="confirm" type="button"  data-dismiss="modal" class="btn btn-primary">我知道了</button>
+            </div>-->
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+
+
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script th:src="@{js/bootstrap-datetimepicker.min.js}"></script>
+<script th:src="@{js/bootstrap-datetimepicker.zh-CN.js}"></script>
+</body>
+
+<script>
+    //关闭click.bs.dropdown.data-api事件，使顶级菜单可点击
+    $(document).off('click.bs.dropdown.data-api');
+    //自动展开
+    $('.nav .dropdown').mouseenter(function(){
+        $(this).addClass('open');
+    });
+    //自动关闭
+    $('.nav .dropdown').mouseleave(function(){
+        $(this).removeClass('open');
+    });
+
+    var mydate = new Date();
+    $('#year').text(mydate.getFullYear());
+
+    $(document).ready(function () {
+        var items = 2;
+        $("#add").click(  function () {
+            $("#inputwrappers").append(
+                '<span><input required name="itemname[]"  placeholder="表单项名'+ items + '" style="width: 150px" type="text"></span>\n' +
+                '        <span><input required name="iteminfo[]"  placeholder="填写提示语'+ (items++) + '" style="width: 230px" type="text"></span><br><br>');
+        });
+    })
+
+    $(function () { $("[data-toggle='tooltip']").tooltip(); });
+
+
+
+
+
+</script>
+</html>

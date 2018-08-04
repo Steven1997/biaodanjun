@@ -20,7 +20,7 @@ public class ExcelUtils {
      * @param filepath 文件路径
      * @param formHead 表头项集合
      */
-    public static void createExcel(String title,String filepath,List<String> formHead){
+    public static void createExcel(String title,String filepath,String[] formHead){
         HSSFWorkbook workbook = new HSSFWorkbook();
         //新建工作表
         HSSFSheet sheet = workbook.createSheet();
@@ -46,15 +46,15 @@ public class ExcelUtils {
         titleStyle.setFont(hssfFont);
         titleCell.setCellStyle(titleStyle);
         //合并题头单元格
-        CellRangeAddress region = new CellRangeAddress(0, 0, 0, formHead.size() - 1);
+        CellRangeAddress region = new CellRangeAddress(0, 0, 0, formHead.length - 1);
         sheet.addMergedRegion(region);
         HSSFRow head = sheet.createRow(1);
         //表头列数
-        int colSize = formHead.size();
+        int colSize = formHead.length;
         for(int i = 0;i < colSize;i++) {
             HSSFCell cell = head.createCell(i);
             cell.setCellType(HSSFCell.CELL_TYPE_STRING);
-            cell.setCellValue(formHead.get(i));
+            cell.setCellValue(formHead[i]);
             HSSFCellStyle style = workbook.createCellStyle();
             style.setAlignment(HorizontalAlignment.CENTER);//水平居中
             style.setVerticalAlignment(VerticalAlignment.CENTER);//垂直居中
@@ -69,7 +69,7 @@ public class ExcelUtils {
             cell.setCellStyle(style);
         }
         //设置列宽度自适应
-        for(int i = 0;i < formHead.size();i++){
+        for(int i = 0;i < formHead.length;i++){
             sheet.autoSizeColumn(i);
             sheet.setColumnWidth(i,sheet.getColumnWidth(i) * 17 / 10);
         }
@@ -88,7 +88,7 @@ public class ExcelUtils {
      * @param items 记录项集合
      * @throws Exception
      */
-    public static void fillExcel(String filepath,List<String> items) {
+    public static void fillExcel(String filepath,String[] items) {
 
         //创建输入流
         FileInputStream fis = null;
@@ -103,7 +103,7 @@ public class ExcelUtils {
             HSSFSheet sheet = workbook.getSheetAt(0);
             int newRowCount = sheet.getLastRowNum() + 1;
             HSSFRow newRow = sheet.createRow(newRowCount);
-            int colSize = items.size();
+            int colSize = items.length;
             //设置字体
             HSSFFont hssfFont = workbook.createFont();
             //字体大小
@@ -111,7 +111,7 @@ public class ExcelUtils {
             for(int i = 0;i < colSize;i++) {
                 HSSFCell cell = newRow.createCell(i);
                 cell.setCellType(HSSFCell.CELL_TYPE_STRING);
-                cell.setCellValue(items.get(i));
+                cell.setCellValue(items[i]);
                 HSSFCellStyle style = workbook.createCellStyle();
                 style.setAlignment(HorizontalAlignment.CENTER);//水平居中
                 style.setVerticalAlignment(VerticalAlignment.CENTER);//垂直居中
@@ -119,7 +119,7 @@ public class ExcelUtils {
                 cell.setCellStyle(style);
             }
             //设置列宽度自适应
-            for(int i = 0;i < items.size();i++){
+            for(int i = 0;i < items.length;i++){
                 sheet.autoSizeColumn(i);
                 sheet.setColumnWidth(i,sheet.getColumnWidth(i) * 17 / 10);
             }
@@ -143,7 +143,7 @@ public class ExcelUtils {
      * @param filepath
      * @return 返回表头项列表
      */
-    public static List<String> getHeader(String filepath){
+    public static String[] getHeader(String filepath){
         FileInputStream fis = null;
         List<String> list = new ArrayList<>();
         try{
@@ -169,6 +169,7 @@ public class ExcelUtils {
                 }
             }
         }
-        return list;
+        String[] listArray = list.toArray(new String[list.size()]);
+        return listArray;
     }
 }
