@@ -87,4 +87,11 @@ public class FormServiceImpl implements FormService {
         }
         return null;
     }
+
+    @Override
+    public void fillForm(String uuid, Integer userid, String formname, String[] items) {
+            String filepath =  rootLocation + "/" + userid + "/" + formname +
+                    "(" + uuid + ")" + ".xls";
+            ExcelUtils.fillExcel(filepath,items);
+    }
 }

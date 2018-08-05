@@ -4,6 +4,7 @@ import cn.habitdiary.form.entity.Form;
 import cn.habitdiary.form.entity.FormDefinition;
 import cn.habitdiary.form.entity.User;
 import cn.habitdiary.form.service.FormService;
+import cn.habitdiary.form.utils.ExcelUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -66,6 +67,7 @@ public class FormController {
                 String[] name = itemname.split(",");
                 String[] info = iteminfo.split(",");
                 User loginUser = (User) session.getAttribute("loginUser");
+                System.out.println(loginUser.getUserid());
                 String uuid = formService.addForm(formname,formdesc,begintime,endtime,password,loginUser,name,info);
                 model.addAttribute("title",formname);
                 model.addAttribute("link","http://localhost:8080/f/" + loginUser.getUserid() + "/" + uuid);
@@ -86,6 +88,24 @@ public class FormController {
                 modelAndView.setViewName("fill");
                 modelAndView.addObject("formDefinition",formDefinition);
                 modelAndView.addObject("form",form);
+                modelAndView.addObject("userid",userid);
                 return modelAndView;
              }
+
+        /**
+         * 写入一条反馈
+         * @param itemValue
+         * @param uuid
+         * @param userid
+         * @param formname
+         * @return
+         */
+            @PostMapping("/doCollect")
+            public String doCollect(@RequestParam("itemValue") String itemValue,@RequestParam("uuid") String uuid,
+                                    @RequestParam("userid") Integer userid,@RequestParam("formname") String formname) {
+
+                String[] items = itemValue.split(",");
+                formService.fillForm(uuid,userid,formname,items);
+                return "index";
+            }
 }

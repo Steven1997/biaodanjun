@@ -5,35 +5,40 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>表单填写 - 表单君</title>
-
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-    <link th:href="@{css/style.css}" rel="stylesheet">
-    <link th:href="@{css/bootstrap-datetimepicker.min.css}" rel="stylesheet">
-    <link rel="shortcut icon" th:href="@{img/figure.png}">
+    <link rel="shortcut icon" href="../../img/figure.png">
 
 </head>
-<body>
-<div class="container">
-    <div style="text-align: center" class="row">
-        <h1 style="font-family: 楷体;font-weight: bolder" th:text="${form.getFormname()}">表单标题</h1>
+<body style="background-color: rgb(237, 240, 248); overflow-x: hidden; overflow-y: auto;">
+<div style="width:60%;margin-bottom: 15px" class="container">
+    <div style="box-shadow: 5px 5px 5px #888888;text-align: center;background-color: rgb(12,103,155);" class="row">
+        <h2 style="margin-bottom:20px;font-family: 微软雅黑;font-weight: 700;color:#FFFFFF" th:text="${form.getFormname()}">表单标题</h2>
     </div>
-    <div style="text-align: center" class="row">
-        <h3 style="font-family: 楷体" th:text="${form.getFormdesc()}">表单描述</h3>
+    <div style="margin-top: 20px" class="row">
+        <div style="text-align:center;font-size:20px" th:text="${form.getFormdesc()}">表单描述</div>
+        <hr style="border : 1px dashed gainsboro;width: 50%;margin-bottom: 0" />
     </div>
-    <div class="row" style="margin-top: 30px">
+    <div class="row" style="margin-top: 0">
         <div style="margin-top: 25px" class="col-md-6 col-md-offset-3">
 
-            <form role="form" action="/doDesign" method="post" >
-                <div th:each="formItem:${formDefinition.getFormItemList()}"  class="form-group">
-                    <label th:text="${formItem.getItemName()}" style="font-size: 20px;font-family: 楷体" th:for="${formItem.getItemName()}">表单项</label>
-                    <input th:placeholder="${formItem.getItemInfo()}" th:name="${formItem.getItemName()}" required class="form-control" />
+            <form role="form" action="/doCollect" method="post" >
+                <div style="display: none">
+                    <input type="text" th:value="${form.getFormname()}" name="formname"/>
+                    <input type="text" th:value="${userid}" name="userid"/>
+                    <input type="text" th:value="${form.getUuid()}" name="uuid"/>
                 </div>
-                <button style="position: relative;left: 220px;margin-top: 13px;margin-bottom: 25px" type="submit" class="btn btn-success btn-lg">
+                <div th:each="formItem:${formDefinition.getFormItemList()}"  class="form-group">
+                    <label th:text="${formItem.getItemName()}" style="font-size: 20px;font-family: 微软雅黑" th:for="${formItem.getItemName()}">表单项</label><span style="color:#DA2824">&nbsp;*</span>
+                    <input   required  th:placeholder="${formItem.getItemInfo()}" name="itemValue" th:id="${formItem.getItemName()}" class="form-control" />
+                </div>
+                <button  style="position: relative;left: 170px;margin-top: 13px" type="submit" class="btn btn-primary btn-lg">
                     提&nbsp;&nbsp;交
                 </button>
+                <a style="text-decoration: none" th:href="@{/index}"><div style="margin-top: 40px;color:rgba(0,0,0,0.5);text-align: center"><img style="width: 20px;height: 20px;margin-right: 5px;margin-bottom: 5px" src="../../img/figure.png"/>由表单君提供技术支持</div></a>
             </form>
         </div>
     </div>
+
 </div>
 
 
@@ -58,96 +63,11 @@
 
 <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script th:src="@{js/bootstrap-datetimepicker.min.js}"></script>
-<script th:src="@{js/bootstrap-datetimepicker.zh-CN.js}"></script>
+
 </body>
 
 <script>
-    //关闭click.bs.dropdown.data-api事件，使顶级菜单可点击
-    $(document).off('click.bs.dropdown.data-api');
-    //自动展开
-    $('.nav .dropdown').mouseenter(function(){
-        $(this).addClass('open');
-    });
-    //自动关闭
-    $('.nav .dropdown').mouseleave(function(){
-        $(this).removeClass('open');
-    });
 
-    var mydate = new Date();
-    $('#year').text(mydate.getFullYear());
-
-    $("#begintime").datetimepicker({//选择年月日
-        format: 'yyyy-mm-dd hh:ii',
-        language: 'zh-CN',
-        weekStart: 1,
-        todayBtn: 1,//显示‘今日’按钮
-        autoclose: 1,
-        pickerPosition: "top-left",
-        todayHighlight: 1,
-        startView: 3,
-        minView: 0,
-        clearBtn:true,//清除按钮
-        forceParse: 0
-    });
-
-    $("#endtime").datetimepicker({//选择年月日
-        format: 'yyyy-mm-dd hh:ii',
-        language: 'zh-CN',
-        weekStart: 1,
-        todayBtn: 1,//显示‘今日’按钮
-        autoclose: 1,
-        pickerPosition: "top-left",
-        todayHighlight: 1,
-        startView: 3,
-        minView: 0,
-        clearBtn:true,//清除按钮
-        forceParse: 0
-    });
-
-    $("form").submit(function () {
-        if($.trim($("#formname").val()) == '' || $.trim($("#formdesc").val()) == ''
-            || $.trim($("#begintime").val()) == '' || $.trim($("#endtime").val()) == ''
-            || $.trim($("#password").val()) == ''){
-            $('#myModalLabel').text('提交失败');
-            $('.modal-body').text('请填写所有信息，且不能使用空格');
-            $("#myModal").modal("show");
-            setTimeout(function(){
-                $("#myModal").modal("hide");
-            },2000);
-            return false;
-        }
-
-
-        var begintime = new Date($("#begintime").val()).getTime();
-        var endtime = new Date($("#endtime").val()).getTime();
-        var now = new Date().getTime();
-        var duration = endtime - begintime;
-
-        if(duration < 1800000){
-            $('#myModalLabel').text('提交失败');
-            $('.modal-body').text('为提高信息收集的可靠性，请保证收集时间至少为30分钟');
-            $("#myModal").modal("show");
-            setTimeout(function(){
-                $("#myModal").modal("hide");
-            },2000);
-            return false;
-        }
-        else
-            return true;
-    })
-
-    $('#demo_img').click(function () { //密码显示与隐藏
-        var pass_type = $('#password').attr('type');
-
-        if (pass_type === 'password' ){
-            $('#password').attr('type', 'text');
-            $('#demo_img').attr('src','img/invisible.png');
-        } else {
-            $('#password').attr('type', 'password');
-            $('#demo_img').attr('src','img/visible.png');
-        }
-    });
 
 
 </script>

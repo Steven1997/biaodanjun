@@ -33,6 +33,15 @@ public interface FormService {
      */
     public FormDefinition getFormDefinition(Integer userid,String uuid);
 
+    /**
+     * 获取表单
+     * @param uuid
+     * @param formname
+     * @param userid
+     * @return
+     */
     public Form selectForm(String uuid,String formname,Integer userid);
+
+    public void fillForm(String uuid,Integer userid,String formname,String[] items);
 
 }
