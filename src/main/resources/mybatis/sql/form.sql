@@ -29,7 +29,7 @@ CREATE TABLE `sform`(
   `uuid` VARCHAR(256) NOT NULL UNIQUE COMMENT '表单序列号',
   `formname` VARCHAR(128) NOT NULL COMMENT '表单名',
   `formpath` VARCHAR(256) NOT NULL COMMENT '表单路径',
-  `formstatus` INT(1) NOT NULL DEFAULT 0 COMMENT '表单状态:0表示未开始,1表示收集中,2表示已结束', 
+  `formstatus` INT(1) NOT NULL DEFAULT 0 COMMENT '表单状态:0表示允许填写,1表示拒绝填写', 
   `formdesc` TEXT NOT NULL COMMENT '表单描述',
   `begintime` VARCHAR(64) NOT NULL COMMENT '开始时间',
   `endtime` VARCHAR(64) NOT NULL COMMENT '结束时间',

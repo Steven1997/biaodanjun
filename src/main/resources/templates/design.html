@@ -83,6 +83,7 @@
                     <div class="form-group">
                         <label style="font-size: 20px" for="password">表单密码</label>
                         <input placeholder="请设置表单密码，填写者须凭密码填写" required type="password" class="form-control" id="password" name="password"/>
+                        <img style="width: 30px;height: 18px;opacity: 0.3;position: absolute;right: 20px;bottom: 70px" id="demo_img"  th:src="@{img/visible.png}">
                     </div>
 
                 <button style="position: relative;left: 180px" type="submit" class="btn btn-success btn-lg">
@@ -204,7 +205,9 @@
 
         var begintime = new Date($("#begintime").val()).getTime();
         var endtime = new Date($("#endtime").val()).getTime();
+        var now = new Date().getTime();
         var duration = endtime - begintime;
+
         if(duration < 1800000){
             $('#myModalLabel').text('提交失败');
             $('.modal-body').text('为提高信息收集的可靠性，请保证收集时间至少为30分钟');
@@ -217,6 +220,18 @@
         else
             return true;
     })
+
+    $('#demo_img').click(function () { //密码显示与隐藏
+        var pass_type = $('#password').attr('type');
+
+        if (pass_type === 'password' ){
+            $('#password').attr('type', 'text');
+            $('#demo_img').attr('src','img/invisible.png');
+        } else {
+            $('#password').attr('type', 'password');
+            $('#demo_img').attr('src','img/visible.png');
+        }
+    });
 
 
 </script>

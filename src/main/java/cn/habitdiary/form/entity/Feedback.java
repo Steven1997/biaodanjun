@@ -3,6 +3,9 @@ package cn.habitdiary.form.entity;
 
 import java.io.Serializable;
 
+/**
+ * 反馈实体类
+ */
 public class Feedback implements Serializable {
     private Integer feedbackid; //反馈编号
     private Form form; //所属表单

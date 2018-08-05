@@ -83,6 +83,7 @@
                 <div style="display: none" class="form-group">
                     <label style="font-size: 20px" for="password">表单密码</label>
                     <input th:value="${password}" placeholder="请设置表单密码，填写者须凭密码填写" required type="password" class="form-control" id="password" name="password"/>
+
                 </div>
                <div style="margin-left: 100px;width: 600px" id="inputwrappers">
                    <div>
@@ -136,9 +137,22 @@
                 <h2 style="text-align: center;font-weight: bold" class="modal-title" id="myModalLabel"></h2>
             </div>
             <div style="text-align: center;font-size:20px" class="modal-body"></div>
-            <!--<div class="modal-footer">
-                <button id="confirm" type="button"  data-dismiss="modal" class="btn btn-primary">我知道了</button>
-            </div>-->
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModa2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="myModalLabe2" style="text-align: center;font-weight: bold" th:text="${title}" class="modal-title" ></h3>
+            </div>
+            <a target="_blank" th:href="@{${link}}"><div th:text="${link}" style="text-align: center;font-size: 20px;color:black" class="modal-body"></div></a>
+            <div class="modal-footer">
+                <div style="text-align:center;font-size:18px;margin-bottom:10px">您的表单入口链接已经生成，可点击访问或右键复制链接</div>
+                <button id="confirm" type="button"  data-dismiss="modal" class="btn btn-primary">返回首页</button>
+            </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
@@ -177,6 +191,15 @@
     })
 
     $(function () { $("[data-toggle='tooltip']").tooltip(); });
+
+    $("#confirm").click(function () {
+        location = "http://localhost:8080/index";
+    })
+
+    if($("#myModalLabe2").text() != ''){
+        $('#myModa2').modal({backdrop: 'static', keyboard: true});
+        $("#myModa2").modal("show");
+    }
 
 
 

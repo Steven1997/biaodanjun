@@ -20,6 +20,9 @@ import javax.validation.Valid;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 
+/**
+ * 用户控制器
+ */
 @Controller
 public class UserController {
     @Autowired
@@ -28,6 +31,12 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    /**
+     * 检查用户名是否已被注册
+     * @param json
+     * @return
+     * @throws JSONException
+     */
     @PostMapping(value = "/checkUser", produces = "application/json;charset=utf-8")
     @ResponseBody
     public String checkUser(@RequestBody String json) throws JSONException {
@@ -43,6 +52,12 @@ public class UserController {
         return data.toString();
     }
 
+    /**
+     * 检查邮箱是否已被绑定
+     * @param json
+     * @return
+     * @throws JSONException
+     */
     @PostMapping(value = "/checkEmail", produces = "application/json;charset=utf-8")
     @ResponseBody
     public String checkEmail(@RequestBody String json) throws JSONException {
@@ -58,6 +73,14 @@ public class UserController {
         return data.toString();
     }
 
+    /**
+     * 注册
+     * @param user
+     * @param bindingResult
+     * @param session
+     * @return
+     * @throws JSONException
+     */
     //要设置produces,否则回调函数会出现中文乱码
     @PostMapping(value = "/doRegister",produces = "application/json;charset=utf-8")
     @ResponseBody
@@ -80,6 +103,13 @@ public class UserController {
         return data.toString();
     }
 
+    /**
+     * 登录
+     * @param json
+     * @param session
+     * @return
+     * @throws JSONException
+     */
     @PostMapping(value = "/doLogin", produces = "application/json;charset=utf-8")
     @ResponseBody
     public String doLogin(@RequestBody String json,HttpSession session) throws JSONException {
@@ -128,6 +158,12 @@ public class UserController {
 
     }
 
+    /**
+     * 退出登录
+     * @param session
+     * @param sessionStatus
+     * @return
+     */
     @GetMapping("/exit")
     public String exit(HttpSession session, SessionStatus sessionStatus){
         session.invalidate();

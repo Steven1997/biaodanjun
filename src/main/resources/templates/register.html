@@ -86,7 +86,6 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h3 style="text-align: center;font-weight: bold" class="modal-title" id="myModalLabel"></h3>
             </div>
             <div style="text-align: center;font-size: 20px;color:black" class="modal-body"></div>
@@ -394,7 +393,7 @@
                     data: data,
                     dataType: 'json',
                     success: function (data) {
-
+                        $('#myModal').modal({backdrop: 'static', keyboard: true});
                         $('#myModalLabel').text(data['title']);
                         $('.modal-body').text(data['content']);
                         if(data['title'] == '注册成功'){

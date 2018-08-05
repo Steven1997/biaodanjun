@@ -11,6 +11,9 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Excel工具类
+ */
 public class ExcelUtils {
 
 
@@ -45,9 +48,12 @@ public class ExcelUtils {
         titleStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         titleStyle.setFont(hssfFont);
         titleCell.setCellStyle(titleStyle);
-        //合并题头单元格
-        CellRangeAddress region = new CellRangeAddress(0, 0, 0, formHead.length - 1);
-        sheet.addMergedRegion(region);
+        if (formHead.length > 1) {
+            //列数多于1列，合并题头单元格
+            CellRangeAddress region = new CellRangeAddress(0, 0, 0, formHead.length - 1);
+            sheet.addMergedRegion(region);
+        }
+
         HSSFRow head = sheet.createRow(1);
         //表头列数
         int colSize = formHead.length;

@@ -4,17 +4,23 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.List;
 
+/**
+ * 用户实体类
+ */
 public class User implements Serializable {
 
-    private Integer userid;
+    private Integer userid; //用户编号
     @NotBlank
-    private String username;
+    private String username; //用户名
     @NotBlank
-    private String password;
+    private String password; //用户密码
     @NotBlank
     @Email
-    private String email;
+    private String email; //用户邮箱
+
+    private List<Form> forms; //表单列表
 
     public User() {
     }
@@ -57,5 +63,11 @@ public class User implements Serializable {
         this.email = email;
     }
 
+    public List<Form> getForms() {
+        return forms;
+    }
 
+    public void setForms(List<Form> forms) {
+        this.forms = forms;
+    }
 }

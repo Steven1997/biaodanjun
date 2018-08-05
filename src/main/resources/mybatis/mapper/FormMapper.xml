@@ -8,4 +8,19 @@
         VALUES(#{uuid},#{formname},#{formpath},#{formstatus},#{formdesc},#{begintime},#{endtime},#{userid},#{password})
     </insert>
 
+    <select id="selectForm" resultType="cn.habitdiary.form.entity.Form">
+        SELECT * FROM sform
+        <where>
+            <if test="uuid != null">
+                uuid = #{uuid}
+            </if>
+            <if test="formname != null">
+                AND formname = #{formname}
+            </if>
+            <if test="userid != null">
+                AND userid = #{userid}
+            </if>
+        </where>
+    </select>
+
 </mapper>

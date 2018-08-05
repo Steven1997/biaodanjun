@@ -2,20 +2,24 @@ package cn.habitdiary.form.entity;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Timer;
 
-
+/**
+ * 表单实体类
+ */
 public class Form implements Serializable {
         private Integer formid; //表单编号
         private String uuid; //表单序列号
         private String formname; //表单名
         private String formpath; //表单路径
-        private Integer formstatus; //表单状态:0表示未开始,1表示收集中,2表示已结束
+        private Integer formstatus; //表单状态:0表示允许填写，1表示拒绝填写
         private String formdesc; //表单描述
         private String begintime; //开始时间
         private String endtime; //结束时间
         private User createUser; //创建用户
         private String password; //填写密码
         private List<Feedback> feedbacks; //反馈列表
+
 
     public Form() {
     }

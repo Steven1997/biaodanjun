@@ -7,6 +7,9 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * 用户拦截器
+ */
 @Component
 public class UserInterceptor implements HandlerInterceptor {
     @Override
