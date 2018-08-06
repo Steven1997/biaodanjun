@@ -35,13 +35,21 @@ public interface FormService {
 
     /**
      * 获取表单
+     * @param formid
      * @param uuid
      * @param formname
      * @param userid
      * @return
      */
-    public Form selectForm(String uuid,String formname,Integer userid);
+    public Form selectForm(Integer formid,String uuid,String formname,Integer userid);
 
-    public void fillForm(String uuid,Integer userid,String formname,String[] items);
+
+    /**
+     * 检查表单密码
+     * @param password
+     * @param formid
+     * @return
+     */
+    public boolean checkPassword(String password,Integer formid);
 
 }

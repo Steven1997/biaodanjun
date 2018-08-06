@@ -88,12 +88,16 @@
                <div style="margin-left: 100px;width: 600px" id="inputwrappers">
                    <div>
                        <label style="margin-left: 45px;font-size: 20px;font-weight: bolder">表单项名</label>
-                       <label style="margin-left: 80px;font-size: 20px;font-weight: bolder">填写提示语</label></div>
-                    <span><input required name="itemname[]"  placeholder="表单项名1" style="width: 150px" type="text"></span>
-                   <span><input required name="iteminfo[]"  placeholder="填写提示语1" style="width: 230px" type="text"></span>
-                   <span><button data-toggle="tooltip" data-placement="right"
-                                 title="添加表单项" id="add" style="width: 70px;height: 30px" type="button" class="btn btn-info"><span  class="glyphicon glyphicon-plus"></span></button></span>
-                    <br><br>
+                       <label style="margin-left: 100px;font-size: 20px;font-weight: bolder">填写提示语</label></div>
+                    <div class="form-inline">
+                        <input class="form-control" required name="itemname[]"  placeholder="表单项名1" style="width: 170px" type="text">
+                        <input class="form-control" required name="iteminfo[]"  placeholder="填写提示语1" style="width: 230px" type="text">
+                        <button data-toggle="tooltip" data-placement="right"
+                                title="添加表单项" id="add" style="width: 70px;height: 30px" type="button" class="btn btn-info"><span  class="glyphicon glyphicon-plus"></span></button>
+                        <button data-toggle="tooltip" data-placement="right"
+                                title="删除表单项" id="del" style="width: 70px;height: 30px" type="button" class="btn btn-danger"><span  class="glyphicon glyphicon-minus"></span></button>
+                    </div>
+                   <br>
                 </div>
 
                 <button style="position: relative;left: 230px" type="submit" class="btn btn-success btn-lg">发布表单</button>
@@ -184,9 +188,16 @@
     $(document).ready(function () {
         var items = 2;
         $("#add").click(  function () {
-            $("#inputwrappers").append(
-                '<span><input required name="itemname[]"  placeholder="表单项名'+ items + '" style="width: 150px" type="text"></span>\n' +
-                '        <span><input required name="iteminfo[]"  placeholder="填写提示语'+ (items++) + '" style="width: 230px" type="text"></span><br><br>');
+            $("#inputwrappers").append('<div class="form-inline"><input class="form-control" required name="itemname[]"  placeholder="表单项名' + items + '" style="width: 170px" type="text">\n' +
+                '<input class="form-control" required name="iteminfo[]"  placeholder="填写提示语' + (items++) +'" style="width: 230px" type="text"></div><br>');
+        });
+        $("#del").click(  function () {
+            if(items > 2){
+                $(".form-inline:last").remove();
+                $("br:last").remove();
+                items--;
+            }
+
         });
     })
 

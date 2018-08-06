@@ -11,7 +11,6 @@ public class Feedback implements Serializable {
     private Form form; //所属表单
     private String feedbacktime; //反馈时间
     private Integer feedbackstatus; //反馈状态:0表示待处理,1表示已处理
-    private String feedbackplace; //反馈地点
 
     public Feedback() {
     }
@@ -48,11 +47,5 @@ public class Feedback implements Serializable {
         this.feedbackstatus = feedbackstatus;
     }
 
-    public String getFeedbackplace() {
-        return feedbackplace;
-    }
 
-    public void setFeedbackplace(String feedbackplace) {
-        this.feedbackplace = feedbackplace;
-    }
 }

@@ -46,9 +46,9 @@ DROP TABLE IF EXISTS `sfeedback`;
 CREATE TABLE `sfeedback`(
   `feedbackid` INT(10) PRIMARY KEY AUTO_INCREMENT COMMENT '反馈编号',
   `formid` INT(10) COMMENT '所属表单编号',
+  `rownumber` INT(10) COMMENT '所在行数',
   `feedbacktime` VARCHAR(64) NOT NULL COMMENT '反馈时间',
   `feedbackstatus` INT(1) NOT NULL DEFAULT 0 COMMENT '反馈状态:0表示待处理,1表示已处理',
-  `feedbackplace` VARCHAR(64) COMMENT '反馈地点',  
    FOREIGN KEY(formid)  REFERENCES sform(formid) ON DELETE CASCADE ON UPDATE CASCADE
 )ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_bin;
 

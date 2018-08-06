@@ -89,12 +89,12 @@ public class ExcelUtils {
     }
 
     /**
-     * 向Excel文档中添加一条新记录
-     * @param filepath 文件路径
-     * @param items 记录项集合
-     * @throws Exception
+     * 向Excel文件中写入一行
+     * @param filepath
+     * @param items
+     * @return
      */
-    public static void fillExcel(String filepath,String[] items) {
+    public static Integer fillExcel(String filepath,String[] items) {
 
         //创建输入流
         FileInputStream fis = null;
@@ -130,6 +130,7 @@ public class ExcelUtils {
                 sheet.setColumnWidth(i,sheet.getColumnWidth(i) * 17 / 10);
             }
             workbook.write(fos);
+            return Integer.valueOf(newRowCount);
         } catch (Exception e) {
             e.printStackTrace();
         }finally {
@@ -142,6 +143,7 @@ public class ExcelUtils {
                 }
             }
         }
+        return null;
     }
 
     /**

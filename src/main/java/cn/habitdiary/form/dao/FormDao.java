@@ -29,10 +29,11 @@ public interface FormDao {
 
     /**
      * 查询表单
+     * @param formid
      * @param uuid
      * @param formname
      * @param userid
      * @return
      */
-    public Form selectForm(@Param("uuid") String uuid, @Param("formname") String formname, @Param("userid") Integer userid);
+    public Form selectForm(@Param("formid") Integer formid,@Param("uuid") String uuid, @Param("formname") String formname, @Param("userid") Integer userid);
 }

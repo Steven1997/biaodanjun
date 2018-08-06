@@ -69,13 +69,13 @@ public class FormServiceImpl implements FormService {
     }
 
     @Override
-    public Form selectForm(String uuid, String formname, Integer userid) {
-        return formDao.selectForm(uuid,formname,userid);
+    public Form selectForm(Integer formid,String uuid, String formname, Integer userid) {
+        return formDao.selectForm(formid,uuid,formname,userid);
     }
 
     @Override
     public FormDefinition getFormDefinition(Integer userid, String uuid) {
-          String formname = selectForm(uuid,null,userid).getFormname();
+          String formname = selectForm(null,uuid,null,userid).getFormname();
           String objectPath = rootLocation + "/" + userid + "/" + formname +
                 "(" + uuid + ")" + ".txt";
         try {
@@ -88,10 +88,14 @@ public class FormServiceImpl implements FormService {
         return null;
     }
 
+
+
     @Override
-    public void fillForm(String uuid, Integer userid, String formname, String[] items) {
-            String filepath =  rootLocation + "/" + userid + "/" + formname +
-                    "(" + uuid + ")" + ".xls";
-            ExcelUtils.fillExcel(filepath,items);
+    public boolean checkPassword(String password, Integer formid) {
+            String pwd = DigestUtils.sha1Hex(password);
+            Form form = formDao.selectForm(formid,null,null,null);
+            if(pwd.equals(form.getPassword()))
+                return true;
+            return false;
     }
 }

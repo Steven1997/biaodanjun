@@ -11,8 +11,11 @@
     <select id="selectForm" resultType="cn.habitdiary.form.entity.Form">
         SELECT * FROM sform
         <where>
+            <if test="formid != null">
+                formid = #{formid}
+            </if>
             <if test="uuid != null">
-                uuid = #{uuid}
+                AND uuid = #{uuid}
             </if>
             <if test="formname != null">
                 AND formname = #{formname}

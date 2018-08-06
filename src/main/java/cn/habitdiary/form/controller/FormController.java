@@ -4,18 +4,15 @@ import cn.habitdiary.form.entity.Form;
 import cn.habitdiary.form.entity.FormDefinition;
 import cn.habitdiary.form.entity.User;
 import cn.habitdiary.form.service.FormService;
-import cn.habitdiary.form.utils.ExcelUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
-import java.util.Arrays;
 import java.util.Map;
 
 /**
@@ -67,7 +64,6 @@ public class FormController {
                 String[] name = itemname.split(",");
                 String[] info = iteminfo.split(",");
                 User loginUser = (User) session.getAttribute("loginUser");
-                System.out.println(loginUser.getUserid());
                 String uuid = formService.addForm(formname,formdesc,begintime,endtime,password,loginUser,name,info);
                 model.addAttribute("title",formname);
                 model.addAttribute("link","http://localhost:8080/f/" + loginUser.getUserid() + "/" + uuid);
@@ -84,7 +80,7 @@ public class FormController {
              public ModelAndView fillBlank(@PathVariable("userid") Integer userid, @PathVariable("uuid") String uuid) {
                 ModelAndView modelAndView = new ModelAndView();
                 FormDefinition formDefinition = formService.getFormDefinition(userid,uuid);
-                Form form = formService.selectForm(uuid,null,userid);
+                Form form = formService.selectForm(null,uuid,null,userid);
                 modelAndView.setViewName("fill");
                 modelAndView.addObject("formDefinition",formDefinition);
                 modelAndView.addObject("form",form);
@@ -92,20 +88,28 @@ public class FormController {
                 return modelAndView;
              }
 
-        /**
-         * 写入一条反馈
-         * @param itemValue
-         * @param uuid
-         * @param userid
-         * @param formname
-         * @return
-         */
-            @PostMapping("/doCollect")
-            public String doCollect(@RequestParam("itemValue") String itemValue,@RequestParam("uuid") String uuid,
-                                    @RequestParam("userid") Integer userid,@RequestParam("formname") String formname) {
-
-                String[] items = itemValue.split(",");
-                formService.fillForm(uuid,userid,formname,items);
-                return "index";
+            /**
+             * 检验表单密码是否正确
+             * @param json
+             * @return
+             * @throws JSONException
+             */
+            @PostMapping(value = "/checkPassword", produces = "application/json;charset=utf-8")
+            @ResponseBody
+            public String checkPassword(@RequestBody String json) throws JSONException {
+                JSONObject jsonObject = new JSONObject(json);
+                JSONObject data = new JSONObject();
+                String password = (String)jsonObject.get("password");
+                String str = (String)jsonObject.get("formid");
+                Integer formid = Integer.valueOf(str);
+                if(formService.checkPassword(password,formid)){
+                    data.put("msg","ok");
+                }
+                else{
+                    data.put("msg","no");
+                }
+                return data.toString();
             }
+
+
 }
