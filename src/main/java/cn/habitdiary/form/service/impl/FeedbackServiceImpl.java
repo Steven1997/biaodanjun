@@ -1,6 +1,7 @@
 package cn.habitdiary.form.service.impl;
 
 import cn.habitdiary.form.dao.FeedbackDao;
+import cn.habitdiary.form.entity.Feedback;
 import cn.habitdiary.form.service.FeedbackService;
 import cn.habitdiary.form.utils.ExcelUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,5 +25,10 @@ public class FeedbackServiceImpl implements FeedbackService {
         SimpleDateFormat dft = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String dateStr =  dft.format(new Date());
         feedbackDao.addFeedback(formid,rownumber,dateStr,0);
+    }
+
+    @Override
+    public Feedback selectFeedback(Integer feedbackid, Integer formid,Integer feedbackstatus) {
+        return feedbackDao.selectFeedback(feedbackid,formid,feedbackstatus);
     }
 }

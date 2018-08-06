@@ -8,22 +8,51 @@
         VALUES(#{uuid},#{formname},#{formpath},#{formstatus},#{formdesc},#{begintime},#{endtime},#{userid},#{password})
     </insert>
 
-    <select id="selectForm" resultType="cn.habitdiary.form.entity.Form">
-        SELECT * FROM sform
-        <where>
+    <resultMap id="FormMap" type="Form">
+        <id property="formid" column="formid"/>
+        <result property="uuid" column="uuid"/>
+        <result property="formname" column="formname"/>
+        <result property="formpath" column="formpath"/>
+        <result property="formstatus" column="formstatus"/>
+        <result property="formdesc" column="formdesc"/>
+        <result property="begintime" column="begintime"/>
+        <result property="endtime" column="endtime"/>
+        <result property="password" column="pwd"/>
+        <association property="createUser" javaType="User">
+            <id property="userid" column="userid"/>
+            <result property="username" column="username"/>
+            <result property="password" column="password"/>
+            <result property="email" column="email"/>
+        </association>
+        <collection property="feedbacks" ofType="Feedback">
+            <id property="feedbackid" column="feedbackid"/>
+            <result property="feedbacktime" column="feedbacktime"/>
+            <result property="feedbackstatus" column="feedbackstatus"/>
+            <result property="rownumber" column="rownumber"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectForm" resultMap="FormMap">
+        SELECT
+        a.userid,a.username,a.password,a.email,b.formid,b.uuid,b.formname,b.formpath,
+        b.formstatus,b.formdesc,b.begintime,b.endtime,b.password AS pwd,c.feedbackid,c.rownumber,
+        c.feedbacktime,c.feedbackstatus
+        FROM
+        sform b LEFT JOIN suser a ON a.userid = b.userid
+        LEFT JOIN sfeedback c ON b.formid = c.formid
+        WHERE 1 = 1
             <if test="formid != null">
-                formid = #{formid}
+               AND  b.formid = #{formid}
             </if>
             <if test="uuid != null">
-                AND uuid = #{uuid}
+                AND b.uuid = #{uuid}
             </if>
             <if test="formname != null">
-                AND formname = #{formname}
+                AND b.formname = #{formname}
             </if>
             <if test="userid != null">
-                AND userid = #{userid}
+                AND a.userid = #{userid}
             </if>
-        </where>
     </select>
 
 </mapper>

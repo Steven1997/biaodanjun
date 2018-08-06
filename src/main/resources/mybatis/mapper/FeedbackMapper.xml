@@ -3,10 +3,57 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="cn.habitdiary.form.dao.FeedbackDao">
+
     <insert id="addFeedback">
         INSERT INTO sfeedback(formid,rownumber,feedbacktime,feedbackstatus)
         VALUES(#{formid},#{rownumber},#{feedbacktime},#{feedbackstatus})
     </insert>
+
+
+
+    <resultMap id="FeedbackMap" type="Feedback">
+        <id property="feedbackid" column="feedbackid"/>
+        <result property="feedbacktime" column="feedbacktime"/>
+        <result property="feedbackstatus" column="feedbackstatus"/>
+        <result property="rownumber" column="rownumber"/>
+        <association property="form" javaType="Form">
+            <id property="formid" column="formid"/>
+            <result property="uuid" column="uuid"/>
+            <result property="formname" column="formname"/>
+            <result property="formpath" column="formpath"/>
+            <result property="formstatus" column="formstatus"/>
+            <result property="formdesc" column="formdesc"/>
+            <result property="begintime" column="begintime"/>
+            <result property="endtime" column="endtime"/>
+            <result property="password" column="pwd"/>
+            <association property="createUser" javaType="User">
+                <id property="userid" column="userid"/>
+                <result property="username" column="username"/>
+                <result property="password" column="password"/>
+                <result property="email" column="email"/>
+            </association>
+        </association>
+    </resultMap>
+
+    <select id="selectFeedback" resultMap="FeedbackMap">
+        SELECT
+            a.userid,a.username,a.password,a.email,b.formid,b.uuid,b.formname,b.formpath,
+            b.formstatus,b.formdesc,b.begintime,b.endtime,b.password AS pwd,c.feedbackid,c.rownumber,
+            c.feedbacktime,c.feedbackstatus
+        FROM
+        sfeedback c LEFT JOIN sform b ON b.formid = c.formid
+        LEFT JOIN suser a ON a.userid = b.userid
+        WHERE 1 = 1
+        <if test="feedbackid != null">
+            AND c.feedbackid = #{feedbackid}
+        </if>
+        <if test="formid != null">
+            AND b.formid = #{formid}
+        </if>
+        <if test="feedbackstatus != null">
+            AND c.feedbackstatus = #{feedbackstatus}
+        </if>
+    </select>
 
 
 </mapper>

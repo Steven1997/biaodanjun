@@ -70,4 +70,15 @@ public class User implements Serializable {
     public void setForms(List<Form> forms) {
         this.forms = forms;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userid=" + userid +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", forms=" + forms +
+                '}';
+    }
 }

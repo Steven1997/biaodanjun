@@ -97,6 +97,7 @@ public class UserController {
         pwd = DigestUtils.sha1Hex(pwd); //Sha1加密入库
         user = new User(username,pwd,email);
         userService.addUser(user);
+        user = userService.selectUser(null,username,null);
         session.setAttribute("loginUser",user);
         data.put("title","注册成功");
         data.put("content","欢迎来到表单君的世界");
@@ -200,5 +201,8 @@ public class UserController {
         responseOutputStream.flush();
         responseOutputStream.close();
     }
+
+
+
 
 }

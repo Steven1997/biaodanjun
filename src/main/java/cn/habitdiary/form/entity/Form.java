@@ -111,4 +111,21 @@ public class Form implements Serializable {
     public void setFormstatus(Integer formstatus) {
         this.formstatus = formstatus;
     }
+
+    @Override
+    public String toString() {
+        return "Form{" +
+                "formid=" + formid +
+                ", uuid='" + uuid + '\'' +
+                ", formname='" + formname + '\'' +
+                ", formpath='" + formpath + '\'' +
+                ", formstatus=" + formstatus +
+                ", formdesc='" + formdesc + '\'' +
+                ", begintime='" + begintime + '\'' +
+                ", endtime='" + endtime + '\'' +
+                ", createUser=" + createUser +
+                ", password='" + password + '\'' +
+                ", feedbacks=" + feedbacks +
+                '}';
+    }
 }

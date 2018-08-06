@@ -4,6 +4,7 @@ import cn.habitdiary.form.service.FeedbackService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -12,7 +13,7 @@ public class FeedbackController {
     @Autowired
     private FeedbackService feedbackService;
     /**
-     * 写入一条反馈
+     * 添加一条反馈
      * @param itemValue
      * @param uuid
      * @param userid
@@ -31,4 +32,7 @@ public class FeedbackController {
         model.addAttribute("formname",formname);
         return "success";
     }
+
+
+
 }

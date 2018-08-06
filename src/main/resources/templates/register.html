@@ -312,7 +312,7 @@
 
         function checkEmail() {
             var email = $("#form-email").val();
-            var reg = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$");
+            var reg = new RegExp("^[a-z0-9]+([._\\\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$");
             if(email == null || $.trim(email) == ''){
                 $("[data-toggle='popover2']").attr('data-content','邮箱不能为空！');
                 $("#group2").addClass('has-error');
