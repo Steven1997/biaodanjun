@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${formname} + ' - 表单君'"></title>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="../../img/figure.png">
+
+</head>
+<body style="background-color: rgb(237, 240, 248); overflow-x: hidden; overflow-y: auto;">
+<div style="width:60%;margin-bottom: 15px" class="container">
+    <div style="box-shadow: 5px 5px 5px #888888;text-align: center;background-color: rgb(12,103,155);" class="row">
+        <h2 style="margin-bottom:20px;font-family: 微软雅黑;font-weight: 700;color:#FFFFFF" th:text="${formname}">表单标题</h2>
+    </div>
+    <div class="row" style="margin-top: 0">
+        <div style="margin-top: 25px" class="col-md-6 col-md-offset-3">
+                <img style="width: 200px;height: 200px;position: relative;left: 110px" th:src="@{img/success.png}"/>
+                <h2 style="font-size:25px;position: relative;left: 155px">提交成功！</h2>
+                <p style="margin-top:35px;position: relative;left: 115px;color: #666666">我们已收到您的反馈，感谢填写</p>
+
+                <a th:href="@{'/f/' + ${userid} + '/' + ${uuid}}"><button id="back" style="position: relative;left: 170px;margin-top: 60px" type="button" class="btn btn-primary btn-lg">
+                    返&nbsp;&nbsp;回
+                </button></a>
+                <a style="text-decoration: none" th:href="@{/index}"><div style="margin-top: 40px;color:rgba(0,0,0,0.5);text-align: center"><img style="width: 20px;height: 20px;margin-right: 5px;margin-bottom: 5px" src="../../img/figure.png"/>由表单君提供技术支持</div></a>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</body>
+
+<script>
+
+
+
+
+
+
+
+</script>
+</html>
