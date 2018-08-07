@@ -27,5 +27,6 @@ public class InterceptorConfig extends WebMvcConfigurationSupport {
         registry.addResourceHandler("img/**").addResourceLocations("classpath:/static/img/");
         registry.addResourceHandler("js/**").addResourceLocations("classpath:/static/js/");
         registry.addResourceHandler("error/**").addResourceLocations("classpath:/static/error/");
+
     }
 }

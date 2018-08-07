@@ -101,6 +101,11 @@
 
 </body>
 <script>
+    $("body").keydown(function() {
+        if (event.keyCode == "13") {
+            $('#submit').click();
+        }
+    });
 
         $('#demo_img').click(function () { //密码显示与隐藏
             var pass_type = $('#form-password').attr('type');

@@ -1,5 +1,7 @@
 package cn.habitdiary.form.entity;
 
+import cn.habitdiary.form.timertask.MailTimerTask;
+
 import java.io.Serializable;
 import java.util.List;
 import java.util.Timer;
@@ -23,6 +25,7 @@ public class Form implements Serializable {
 
     public Form() {
     }
+
 
     public Integer getFormid() {
         return formid;

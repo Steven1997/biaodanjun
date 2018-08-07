@@ -10,12 +10,15 @@
 <body>
      <div style="box-shadow: 5px 5px 5px #F0F0F0;font-size:15px;border: gainsboro solid 1px">
          <p th:text="'Hi，' + ${username}"style="margin-left: 190px;margin-top: 100px;color: #55acee"></p>
-         <p style="margin-left: 220px;margin-top: 40px;margin-bottom: 40px"
-            th:text="'表单君提醒您，您发布的表单：' + ${formname} + ' 已经结束收集，点击下面的链接可查看详情'"></p>
+         <span style="margin-left: 220px;margin-top: 40px;margin-bottom: 40px">
+             表单君提醒您，您发布的表单：
+         </span>
+         <span style="color: #55acee" th:text="${formname}"></span>
+         <span >&nbsp;已经结束收集，点击下面的链接可查看详情</span>
          <p style="margin-left: 725px;margin-top: 5px;margin-bottom: 5px">From 表单君</p>
          <p style="margin-left: 530px;margin-top: 5px;margin-bottom: 5px">表单君 | 极简在线表单设计与信息采集工具</p>
          <p style="margin-left: 560px;margin-top: 5px;margin-bottom: 5px"><a style="color: #55acee" href="http://localhost:8080/index" target="_blank" >http://localhost:8080/index</a></p>
-         <p th:text="${date}" style="margin-left: 725px;margin-bottom: 100px"></p>
+         <p th:text="${date}" style="margin-left: 745px;margin-bottom: 100px"></p>
      </div>
 
 </body>

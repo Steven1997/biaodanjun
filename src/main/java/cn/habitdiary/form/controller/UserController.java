@@ -1,6 +1,7 @@
 package cn.habitdiary.form.controller;
 import cn.habitdiary.form.entity.User;
 import cn.habitdiary.form.service.UserService;
+import cn.habitdiary.form.utils.CookieUtil;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.json.JSONException;
@@ -113,11 +114,14 @@ public class UserController {
      */
     @PostMapping(value = "/doLogin", produces = "application/json;charset=utf-8")
     @ResponseBody
-    public String doLogin(@RequestBody String json,HttpSession session) throws JSONException {
+    public String doLogin(@RequestBody String json,HttpSession session, HttpServletRequest httpServletRequest,
+                          HttpServletResponse httpServletResponse) throws JSONException {
         JSONObject jsonObject = new JSONObject(json);
         JSONObject data = new JSONObject();
         String username = (String)jsonObject.get("username");
         String password = (String)jsonObject.get("password");
+        Boolean rememberme = (Boolean) jsonObject.get("rememberme");
+
         String shapwd = DigestUtils.sha1Hex(password);
         String code = (String)jsonObject.get("code");
         User user1 = userService.selectUser(null,username,null);
@@ -133,6 +137,13 @@ public class UserController {
                     session.setAttribute("loginUser",user1);
                     data.put("title","登录成功");
                     data.put("content","欢迎使用表单君");
+                    if(rememberme.booleanValue() == true){
+                        CookieUtil.setCookie(httpServletResponse,"username",username,CookieUtil.COOKIE_MAX_AGE);
+                        CookieUtil.setCookie(httpServletResponse,"password",password,CookieUtil.COOKIE_MAX_AGE);
+                    }else{
+                        CookieUtil.removeCookie(httpServletRequest,httpServletResponse,"username");
+                        CookieUtil.removeCookie(httpServletRequest,httpServletResponse,"password");
+                    }
             }
             else{
                 data.put("title","登录失败");
@@ -144,6 +155,13 @@ public class UserController {
                 session.setAttribute("loginUser",user2);
                 data.put("title","登录成功");
                 data.put("content","欢迎使用表单君");
+                if(rememberme.booleanValue() == true){
+                    CookieUtil.setCookie(httpServletResponse,"username",username,CookieUtil.COOKIE_MAX_AGE);
+                    CookieUtil.setCookie(httpServletResponse,"password",password,CookieUtil.COOKIE_MAX_AGE);
+                }else{
+                    CookieUtil.removeCookie(httpServletRequest,httpServletResponse,"username");
+                    CookieUtil.removeCookie(httpServletRequest,httpServletResponse,"password");
+                }
             }
             else{
                 data.put("title","登录失败");
@@ -166,8 +184,10 @@ public class UserController {
      * @return
      */
     @GetMapping("/exit")
-    public String exit(HttpSession session, SessionStatus sessionStatus){
+    public String exit(HttpSession session, SessionStatus sessionStatus,HttpServletRequest httpServletRequest,HttpServletResponse httpServletResponse){
         session.invalidate();
+        CookieUtil.removeCookie(httpServletRequest,httpServletResponse,"username");
+        CookieUtil.removeCookie(httpServletRequest,httpServletResponse,"password");
         return "redirect:/index";
     }
 
