@@ -6,19 +6,16 @@ import cn.habitdiary.form.entity.FormDefinition;
 import cn.habitdiary.form.entity.FormItem;
 import cn.habitdiary.form.entity.User;
 import cn.habitdiary.form.service.FormService;
-import cn.habitdiary.form.utils.ExcelUtils;
-import cn.habitdiary.form.utils.ObjectIOUtils;
-import cn.habitdiary.form.utils.UUIDUtils;
+import cn.habitdiary.form.utils.ExcelUtil;
+import cn.habitdiary.form.utils.ObjectIOUtil;
+import cn.habitdiary.form.utils.UUIDUtil;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,14 +40,14 @@ public class FormServiceImpl implements FormService {
             if (!userdir.exists()) {
                 userdir.mkdir();
             }
-            String uuid = UUIDUtils.getUUID();
+            String uuid = UUIDUtil.getUUID();
             String formpath = rootLocation + "/" + userid + "/" + formname +
                     "(" + uuid + ")" + ".xls";
 
         password = DigestUtils.sha1Hex(password);
         formDao.addForm(uuid,formname,formpath,formstatus,formdesc,begintime,endtime,userid,password);
         //保存FormDefinition文件，保存Excel文件
-        ExcelUtils.createExcel(formname,formpath,name);
+        ExcelUtil.createExcel(formname,formpath,name);
         List<FormItem> list = new ArrayList<>();
         int len = name.length;
         for(int i = 0;i < len;i++) {
@@ -60,7 +57,7 @@ public class FormServiceImpl implements FormService {
         String objectPath = rootLocation + "/" + userid + "/" + formname +
                 "(" + uuid + ")" + ".txt";
         try {
-            ObjectIOUtils.createObj(objectPath,formDefinition);
+            ObjectIOUtil.createObj(objectPath,formDefinition);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -79,7 +76,7 @@ public class FormServiceImpl implements FormService {
           String objectPath = rootLocation + "/" + userid + "/" + formname +
                 "(" + uuid + ")" + ".txt";
         try {
-            return ObjectIOUtils.readObj(objectPath);
+            return ObjectIOUtil.readObj(objectPath);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {

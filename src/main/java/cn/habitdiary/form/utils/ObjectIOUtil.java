@@ -7,7 +7,7 @@ import java.io.*;
 /**
  * 对象输入输出工具类
  */
-public class ObjectIOUtils {
+public class ObjectIOUtil {
     /**
      * 保存表单定义
      * @param filepath

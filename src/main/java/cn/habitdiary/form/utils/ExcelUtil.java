@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Excel工具类
  */
-public class ExcelUtils {
+public class ExcelUtil {
 
 
     /**

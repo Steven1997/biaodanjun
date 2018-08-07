@@ -18,11 +18,29 @@ spring:
   devtools:
     restart:
       enabled: true
+  # 邮件发送配置
+  mail:
+    host: smtp.qq.com
+    username: steven1997@habitdiary.cn # 发送者邮箱 2834274118@qq.com
+    password: vkhvfftjsqbmbdjh
+    default-encoding: UTF-8
+    properties:
+      mail:
+        smtp:
+            auth: true
+            starttls:
+              enable: true
+              required: true
+
+fromBody: steven1997@habitdiary.cn
+nickname: 表单君
+
+
 
 # 配置mybatis
 mybatis:
   config-location: classpath:mybatis/mybatis-config.xml
   mapper-locations: classpath:mybatis/mapper/*.xml
   type-aliases-package: cn.habitdiary.form.entity
-
+# 文件根目录
 root-location: D:/formspace
