@@ -71,6 +71,11 @@ public class FormServiceImpl implements FormService {
     }
 
     @Override
+    public List<Form> listForm(Integer formid, String uuid, String formname, Integer userid) {
+        return formDao.listForm(formid,uuid,formname,userid);
+    }
+
+    @Override
     public FormDefinition getFormDefinition(Integer userid, String uuid) {
           String formname = selectForm(null,uuid,null,userid).getFormname();
           String objectPath = rootLocation + "/" + userid + "/" + formname +

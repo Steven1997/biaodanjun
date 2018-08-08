@@ -5,6 +5,8 @@ import cn.habitdiary.form.entity.FormDefinition;
 import cn.habitdiary.form.entity.User;
 import cn.habitdiary.form.service.FormService;
 import cn.habitdiary.form.utils.EmailUtil;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +18,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ScheduledFuture;
 
 /**
@@ -183,6 +183,17 @@ public class FormController {
                     data.put("msg","no");
                 }
                 return data.toString();
+            }
+
+            @GetMapping("/myform")
+            public String formList(HttpSession session,@RequestParam(required=true,defaultValue="1") Integer page,@RequestParam(required=true,defaultValue="5") Integer pagesize, HttpServletRequest request, Model model) {
+                    User loginUser = (User)session.getAttribute("loginUser");
+                    PageHelper.startPage(page,pagesize);
+                    List<Form> formList = formService.listForm(null,null,null,loginUser.getUserid());
+                    PageInfo<Form>  p = new PageInfo<Form>(formList);
+                    model.addAttribute("page", p);
+                    model.addAttribute("formList",formList);
+                    return "myform";
             }
 
 

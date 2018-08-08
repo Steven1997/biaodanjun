@@ -6,6 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import java.util.Properties;
+
 @SpringBootApplication
 @MapperScan("cn.habitdiary.form.dao")
 @ImportResource(locations={"classpath:kaptcha.xml"})
@@ -15,4 +17,6 @@ public class FormApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(FormApplication.class, args);
 	}
+
+
 }

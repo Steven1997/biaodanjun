@@ -44,3 +44,10 @@ mybatis:
   type-aliases-package: cn.habitdiary.form.entity
 # 文件根目录
 root-location: D:/formspace
+
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count = countSql
+

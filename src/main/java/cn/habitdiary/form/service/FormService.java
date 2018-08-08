@@ -4,6 +4,8 @@ import cn.habitdiary.form.entity.Form;
 import cn.habitdiary.form.entity.FormDefinition;
 import cn.habitdiary.form.entity.User;
 
+import java.util.List;
+
 
 /**
  * 表单业务接口
@@ -42,6 +44,16 @@ public interface FormService {
      * @return
      */
     public Form selectForm(Integer formid,String uuid,String formname,Integer userid);
+
+    /**
+     * 查询表单集合
+     * @param formid
+     * @param uuid
+     * @param formname
+     * @param userid
+     * @return
+     */
+    public List<Form> listForm(Integer formid, String uuid, String formname, Integer userid);
 
 
     /**

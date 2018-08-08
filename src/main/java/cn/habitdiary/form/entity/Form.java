@@ -1,10 +1,7 @@
 package cn.habitdiary.form.entity;
 
-import cn.habitdiary.form.timertask.MailTimerTask;
-
 import java.io.Serializable;
 import java.util.List;
-import java.util.Timer;
 
 /**
  * 表单实体类

@@ -26,14 +26,6 @@ public class IndexController {
         return "search";
     }
 
-    /**
-     * 访问我的表单页面
-     * @return
-     */
-    @GetMapping(value = "/myform")
-    public String myform() {
-        return "myform";
-    }
 
     /**
      * 访问首页

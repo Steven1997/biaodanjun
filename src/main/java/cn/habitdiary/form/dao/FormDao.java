@@ -4,6 +4,8 @@ import cn.habitdiary.form.entity.Form;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * 表单Dao层
  */
@@ -28,7 +30,7 @@ public interface FormDao {
                         @Param("password") String password);
 
     /**
-     * 查询表单
+     * 查询一个表单
      * @param formid
      * @param uuid
      * @param formname
@@ -36,4 +38,14 @@ public interface FormDao {
      * @return
      */
     public Form selectForm(@Param("formid") Integer formid,@Param("uuid") String uuid, @Param("formname") String formname, @Param("userid") Integer userid);
+
+    /**
+     * 查询表单集合
+     * @param formid
+     * @param uuid
+     * @param formname
+     * @param userid
+     * @return
+     */
+    public List<Form> listForm(@Param("formid") Integer formid, @Param("uuid") String uuid, @Param("formname") String formname, @Param("userid") Integer userid);
 }
