@@ -71,21 +71,33 @@ public class FormController {
                 private String formname;
                 private String date;
                 private String toBody;
+                private Integer formid;
+                private Integer userid;
+                private String uuid;
 
-                public MyRunnable(String username, String formname, String date, String toBody) {
+                public MyRunnable(String username, String formname, String date, String toBody,Integer formid,Integer userid,String uuid) {
                     this.username = username;
                     this.formname = formname;
                     this.date = date;
                     this.toBody = toBody;
+                    this.formid = formid;
+                    this.userid = userid;
+                    this.uuid = uuid;
                 }
 
                 @Override
                 public void run() {
-                    Map<String,Object> mp = new HashMap<>();
-                    mp.put("username",username);
-                    mp.put("formname",formname);
-                    mp.put("date",date);
-                    emailUtil.sendTemplateMail(toBody,"表单君表单收集结束提醒","reminder",mp);
+                    Form form = formService.selectForm(formid,null,null,null);
+                    if (form != null) {
+                        Map<String,Object> mp = new HashMap<>();
+                        mp.put("username",username);
+                        mp.put("formname",formname);
+                        mp.put("date",date);
+                        mp.put("userid",userid);
+                        mp.put("uuid",uuid);
+                        emailUtil.sendTemplateMail(toBody,"表单君表单收集结束提醒","reminder",mp);
+                    }
+
                 }
             }
 
@@ -132,6 +144,7 @@ public class FormController {
                 String[] info = iteminfo.split(",");
                 User loginUser = (User) session.getAttribute("loginUser");
                 String uuid = formService.addForm(formname,formdesc,begintime,endtime,password,loginUser,name,info);
+                Integer formid = formService.selectForm(null,uuid,formname,null).getFormid();
                 model.addAttribute("title",formname);
                 model.addAttribute("link","http://localhost:8080/f/" + loginUser.getUserid() + "/" + uuid);
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -141,7 +154,7 @@ public class FormController {
                 String cron = "0 " + calendar.get(Calendar.MINUTE) + " " + calendar.get(Calendar.HOUR_OF_DAY) + " " + calendar.get(Calendar.DAY_OF_MONTH) + " " + (calendar.get(Calendar.MONTH) + 1) + " ?";
                 String date = calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH) + 1) + "-" + calendar.get(Calendar.DAY_OF_MONTH);
                 System.out.println(cron);
-                future = threadPoolTaskScheduler.schedule(new MyRunnable(loginUser.getUsername(),formname,date,loginUser.getEmail()), new CronTrigger(cron));
+                future = threadPoolTaskScheduler.schedule(new MyRunnable(loginUser.getUsername(),formname,date,loginUser.getEmail(),formid,loginUser.getUserid(),uuid), new CronTrigger(cron));
                 return "edit";
             }
 

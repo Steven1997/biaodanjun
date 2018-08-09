@@ -41,6 +41,7 @@
     <div style="display: none" id="lastnum" th:text="${page.getLastPage()}"></div>
     <div style="display: none" id="pagesize" th:text="${page.getPageSize()}"></div>
     <button id="link" class="btn btn-info btn-lg">查看表单链接&nbsp;<span class="glyphicon glyphicon-link"></span></button>
+    <a th:href="@{ignore(formid=${form.getFormid()})}"><button id="ignore" style="position: relative;left: 70%" class="btn btn-danger btn-lg">全部已读</button></a>
     <h2 style="width: 50%;font-weight: bolder;text-align: center;position: relative;left: 25%" th:text="${form.getFormname()} + '信息及反馈'"></h2>
     <table style="background-color: #FFFFFF;text-align: center" class="table table-hover table-bordered">
         <thead>
@@ -57,7 +58,7 @@
             <td class="feedbacktime" th:text="${feedback.getFeedbacktime()}"></td>
             <td class="feedbackstatus" th:text="${feedback.getFeedbackstatus()}"></td>
             <td class="op">
-                <a target="_blank" th:href="@{/checkFeedback(rownumber=${feedback.getRownumber()},userid=${form.getCreateUser().getUserid()},uuid=${form.getUuid()},feedbackid=${feedback.getFeedbackid()})}">
+                <a onclick="location.reload()" target="_blank" th:href="@{/checkFeedback(rownumber=${feedback.getRownumber()},userid=${form.getCreateUser().getUserid()},uuid=${form.getUuid()},feedbackid=${feedback.getFeedbackid()})}">
                     <button  class="btn btn-info">查看详情</button>
                 </a>
             </td>
@@ -160,7 +161,10 @@
             $('#myModa2').modal({backdrop: 'static', keyboard: true});
             $("#myModa2").modal("show");
         });
-        
+
+
+
+
 
     })
 </script>

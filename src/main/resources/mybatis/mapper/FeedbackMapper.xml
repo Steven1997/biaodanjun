@@ -65,6 +65,10 @@
     <update id="changeStatus" parameterType="java.lang.Integer">
         UPDATE sfeedback SET feedbackstatus = 1 WHERE feedbackid = #{feedbackid}
     </update>
+
+    <update id="ignore" parameterType="java.lang.Integer">
+        UPDATE sfeedback SET feedbackstatus = 1 WHERE formid = #{formid}
+    </update>
     
     <select id="listFeedbacks" resultMap="FeedbackMap2">
         SELECT * FROM sfeedback

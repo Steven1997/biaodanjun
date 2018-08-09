@@ -86,6 +86,17 @@ public class FeedbackController {
         return modelAndView;
     }
 
+    /**
+     * 全部已读
+     * @param formid
+     * @return
+     */
+    @GetMapping("/ignore")
+    public String ignore(@RequestParam("formid") Integer formid) {
+        feedbackService.ignore(formid);
+        return "redirect:/forminfo?formid=" + formid;
+    }
+
 
 
 }

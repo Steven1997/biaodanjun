@@ -40,4 +40,9 @@ public interface FeedbackDao {
      */
     public List<Feedback> listFeedbacks(@Param("feedbackid") Integer feedbackid,@Param("formid") Integer formid,@Param("feedbackstatus") Integer feedbackstatus);
 
+    /**
+     * 全部已读
+     * @param formid
+     */
+    public void ignore(@Param("formid") Integer formid);
 }

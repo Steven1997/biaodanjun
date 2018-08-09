@@ -49,4 +49,9 @@ public class FeedbackServiceImpl implements FeedbackService {
     public List<Feedback> listFeedbacks(Integer feedbackid, Integer formid, Integer feedbackstatus) {
         return feedbackDao.listFeedbacks(feedbackid,formid,feedbackstatus);
     }
+
+    @Override
+    public void ignore(Integer formid) {
+        feedbackDao.ignore(formid);
+    }
 }

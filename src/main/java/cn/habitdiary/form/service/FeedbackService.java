@@ -51,4 +51,10 @@ public interface FeedbackService {
      * @param feedbackid
      */
     public void changeStatus(Integer feedbackid);
+
+    /**
+     * 设置全部已读
+     * @param formid
+     */
+    public void ignore(Integer formid);
 }

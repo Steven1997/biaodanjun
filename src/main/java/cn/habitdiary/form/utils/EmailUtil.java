@@ -2,6 +2,7 @@ package cn.habitdiary.form.utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
@@ -11,6 +12,7 @@ import org.thymeleaf.context.IContext;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.io.File;
 import java.util.Map;
 
 
@@ -28,7 +30,10 @@ public class EmailUtil {
     @Value("${nickname}")
     private String nickname;
 
-    private void sendHtmlMail(String toBody, String subject, String content) {
+    @Value("${root-location}")
+    private String rootLocation;
+
+    private void sendHtmlMail(String toBody, String subject, String content,Integer userid,String formname,String uuid) {
         MimeMessage message = mailSender.createMimeMessage();
 
         try {
@@ -40,6 +45,12 @@ public class EmailUtil {
             helper.setText(content, true);
 
 
+            String filePath = rootLocation + "/" + userid + "/" + formname +
+                    "(" + uuid + ")" + ".xls";
+            String fileName = formname + "-表单君反馈导出.xls";
+            FileSystemResource file = new FileSystemResource(new File(filePath));
+            helper.addAttachment(fileName, file);
+
             mailSender.send(message);
         } catch (MessagingException e) {
         }
@@ -49,7 +60,10 @@ public class EmailUtil {
         //创建邮件正文
         Context context = new Context();
         context.setVariables(variables);
+        Integer userid = (Integer) variables.get("userid");
+        String formname = (String)variables.get("formname");
+        String uuid = (String)variables.get("uuid");
         String emailContent = templateEngine.process(templateName,context);
-        sendHtmlMail(toBody,subject,emailContent);
+        sendHtmlMail(toBody,subject,emailContent,userid,formname,uuid);
     }
 }

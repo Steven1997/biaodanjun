@@ -149,8 +149,7 @@ public class FormServiceImpl implements FormService {
             HttpHeaders headers = new HttpHeaders();
             // 设置文件类型
             // 解决中文乱码问题
-            String fileName = new String((formname +
-                    "(" + uuid + ")" + ".xls").getBytes("utf-8"), "iso-8859-1");
+            String fileName = new String((formname + "-表单君反馈导出.xls").getBytes("utf-8"), "iso-8859-1");
 
             headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
             headers.setContentDispositionFormData("attachment", fileName);
