@@ -59,9 +59,9 @@
                     <td class="endtime" th:text="${form.getEndtime()}"></td>
                     <td class="formstatus" th:text="${form.getFormstatus()}"></td>
                     <td class="op">
-                        <a th:href="@{/chageFormStatus(formid=${form.getFormid()})}"><button></button></a>
-                        <a th:href="@{/delForm(formid=${form.getFormid()})}"><button class="btn btn-danger">删除</button></a>
-                        <a th:href="@{/checkForm(formid=${form.getFormid()})}"><button class="btn btn-info">查看</button></a>
+                        <a th:href="@{/changeFormStatus(formid=${form.getFormid()},nowstatus=${form.getFormstatus()},pagenum=${page.getPageNum()})}"><button></button></a>
+                        <a th:href="@{/delForm(formid=${form.getFormid()},pagenum=${page.getPageNum()})}"><button class="btn btn-danger">删除</button></a>
+                        <a target="_blank" th:href="@{/forminfo(formid=${form.getFormid()})}"><button class="btn btn-info">查看</button></a>
                         <a th:href="@{/downloadForm(formid=${form.getFormid()})}"><button class="btn btn-success">导出</button></a>
                     </td>
                 </tr>
@@ -73,7 +73,8 @@
         <div>
             <a th:href="@{/myform(page=${page.getFirstPage()})}"><button style="margin-right: 15px" class="btn btn-primary"><span aria-hidden="true">&laquo;</span>&nbsp;首页</button></a>
             <a id="pre" th:href="@{/myform(page=${page.getPrePage()})}"><button  style="margin-right: 230px" class="btn btn-primary"><span aria-hidden="true">&laquo;</span>&nbsp;上一页</button></a>
-            <span style="margin-right: 230px;font-size: 18px;color: #FFFFFF" th:text="'当前第' + ${page.getPageNum()} + '/' + ${page.getPages()} + '页'"></span>
+            <span style="margin-right: 230px;font-size: 18px;color: #FFFFFF" th:if="${page.getPages() > 0}" th:text="'当前第' + ${page.getPageNum()} + '/' + ${page.getPages()} + '页'"></span>
+            <span style="margin-right: 200px;font-size: 18px;color: #FFFFFF" th:if="${page.getPages() == 0}" th:text="您没有发布的表单"></span>
             <a id="next" th:href="@{/myform(page=${page.getNextPage()})}"><button  style="margin-right: 15px" class="btn btn-primary">下一页&nbsp;<span aria-hidden="true">&raquo;</span></button></a>
             <a th:href="@{/myform(page=${page.getLastPage()})}"><button class="btn btn-primary">尾页&nbsp;<span aria-hidden="true">&raquo;</span></button></a>
         </div>

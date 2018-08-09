@@ -3,7 +3,10 @@ package cn.habitdiary.form.service;
 import cn.habitdiary.form.entity.Form;
 import cn.habitdiary.form.entity.FormDefinition;
 import cn.habitdiary.form.entity.User;
+import org.springframework.http.ResponseEntity;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 
@@ -63,5 +66,26 @@ public interface FormService {
      * @return
      */
     public boolean checkPassword(String password,Integer formid);
+
+    /**
+     * 修改表单状态
+     * @param formid
+     */
+    public void changeFormStatus(Integer formid,Integer nowstatus);
+
+    /**
+     * 删除表单
+     * @param formid
+     */
+    public void delForm(Integer formid);
+
+    /**
+     * 下载表单
+     * @param formid
+     * @return
+     */
+    public ResponseEntity<byte[]> downloadForm(Integer formid);
+
+
 
 }

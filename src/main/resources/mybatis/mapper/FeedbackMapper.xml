@@ -35,6 +35,13 @@
         </association>
     </resultMap>
 
+    <resultMap id="FeedbackMap2" type="Feedback">
+        <id property="feedbackid" column="feedbackid"/>
+        <result property="feedbacktime" column="feedbacktime"/>
+        <result property="feedbackstatus" column="feedbackstatus"/>
+        <result property="rownumber" column="rownumber"/>
+    </resultMap>
+
     <select id="selectFeedback" resultMap="FeedbackMap">
         SELECT
             a.userid,a.username,a.password,a.email,b.formid,b.uuid,b.formname,b.formpath,
@@ -53,6 +60,25 @@
         <if test="feedbackstatus != null">
             AND c.feedbackstatus = #{feedbackstatus}
         </if>
+    </select>
+
+    <update id="changeStatus" parameterType="java.lang.Integer">
+        UPDATE sfeedback SET feedbackstatus = 1 WHERE feedbackid = #{feedbackid}
+    </update>
+    
+    <select id="listFeedbacks" resultMap="FeedbackMap2">
+        SELECT * FROM sfeedback
+        WHERE 1=1
+            <if test="feedbackid != null">
+                AND feedbackid = #{feedbackid}
+            </if>
+            <if test="formid != null">
+                AND formid = #{formid}
+            </if>
+            <if test="feedbackstatus != null">
+                AND feedbackstatus = #{feedbackstatus}
+            </if>
+        ORDER BY feedbackid ASC
     </select>
 
 

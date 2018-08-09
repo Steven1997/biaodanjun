@@ -11,6 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.stereotype.Controller;
@@ -185,8 +186,16 @@ public class FormController {
                 return data.toString();
             }
 
+            /**
+             * 展示我的表单
+             * @param session
+             * @param page
+             * @param pagesize
+             * @param model
+             * @return
+             */
             @GetMapping("/myform")
-            public String formList(HttpSession session,@RequestParam(required=true,defaultValue="1") Integer page,@RequestParam(required=true,defaultValue="5") Integer pagesize, HttpServletRequest request, Model model) {
+            public String formList(HttpSession session,@RequestParam(required=true,defaultValue="1") Integer page,@RequestParam(required=true,defaultValue="5") Integer pagesize,  Model model) {
                     User loginUser = (User)session.getAttribute("loginUser");
                     PageHelper.startPage(page,pagesize);
                     List<Form> formList = formService.listForm(null,null,null,loginUser.getUserid());
@@ -196,13 +205,39 @@ public class FormController {
                     return "myform";
             }
 
+            /**
+             * 修改表单状态
+             * @param formid
+             * @param pagenum
+             * @return
+             */
+            @GetMapping("/changeFormStatus")
+            public String changeFormStatus(@RequestParam("formid") Integer formid,@RequestParam("nowstatus") Integer nowstatus,@RequestParam("pagenum") Integer pagenum) {
+                formService.changeFormStatus(formid,nowstatus);
+                return "redirect:/myform?page=" + pagenum;
+            }
 
+            /**
+             * 删除表单
+             * @param formid
+             * @param pagenum
+             * @return
+             */
+            @GetMapping("/delForm")
+            public String delForm(@RequestParam("formid") Integer formid,@RequestParam("pagenum") Integer pagenum) {
+                formService.delForm(formid);
+                return "redirect:/myform?page=" + pagenum;
+            }
 
-
-
-
-
-
+            /**
+             * 下载表单
+             * @param formid
+             * @return
+             */
+            @GetMapping("/downloadForm")
+            public ResponseEntity<byte[]> downloadForm(@RequestParam("formid") Integer formid) {
+                return formService.downloadForm(formid);
+            }
 
 
 }

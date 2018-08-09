@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>表单详情 - 表单君</title>
+
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{css/style.css}" rel="stylesheet">
+    <link rel="shortcut icon" th:href="@{img/figure.png}">
+
+</head>
+<body>
+<nav class="navbar navbar-inverse navi navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a style="margin-left: 50px" th:href="@{/index}">首页<span class="sr-only">(current)</span></a></li>
+                <li><a th:href="@{/design}">设计表单</a></li>
+                <li><a th:href="@{/search}">搜索表单</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li th:if="${session.loginUser != null}"><p>欢迎您</p></li>
+                <li><p th:text="${session.loginUser?.getUsername()}"></p></li>
+                <li th:if="${session.loginUser == null}"><a  th:href="@{/login}">登录</a></li>
+                <li th:if="${session.loginUser == null}"><a th:href="@{/register}">注册</a></li>
+                <li th:if="${session.loginUser != null}" class="dropdown">
+                    <a href="#" style="margin-right: 40px" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">我的<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a th:href="@{/myform}">我的表单</a></li>
+                        <li><a th:href="@{/exit}">退出登录</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+<div style="width: 60%;position: relative;left: 20%;top: 100px">
+    <div style="display: none" id="pagenum" th:text="${page.getPageNum()}"></div>
+    <div style="display: none" id="lastnum" th:text="${page.getLastPage()}"></div>
+    <div style="display: none" id="pagesize" th:text="${page.getPageSize()}"></div>
+    <button id="link" class="btn btn-info btn-lg">查看表单链接&nbsp;<span class="glyphicon glyphicon-link"></span></button>
+    <h2 style="width: 50%;font-weight: bolder;text-align: center;position: relative;left: 25%" th:text="${form.getFormname()} + '信息及反馈'"></h2>
+    <table style="background-color: #FFFFFF;text-align: center" class="table table-hover table-bordered">
+        <thead>
+        <tr style="font-size: 20px;background-color: rgb(12,103,155);color: #FFFFFF">
+            <th  style="text-align: center">#</th>
+            <th  style="text-align: center">填写时间</th>
+            <th  style="text-align: center">状态</th>
+            <th  style="text-align: center">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr style="font-size: large" th:each="feedback:${feedbackList}">
+            <td th:text="${feedback.getRownumber()} - 1"></td>
+            <td class="feedbacktime" th:text="${feedback.getFeedbacktime()}"></td>
+            <td class="feedbackstatus" th:text="${feedback.getFeedbackstatus()}"></td>
+            <td class="op">
+                <a target="_blank" th:href="@{/checkFeedback(rownumber=${feedback.getRownumber()},userid=${form.getCreateUser().getUserid()},uuid=${form.getUuid()},feedbackid=${feedback.getFeedbackid()})}">
+                    <button  class="btn btn-info">查看详情</button>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+
+
+    </table>
+
+    <div>
+        <a th:href="@{/forminfo(page=${page.getFirstPage()},formid=${form.getFormid()})}"><button style="margin-right: 15px" class="btn btn-primary"><span aria-hidden="true">&laquo;</span>&nbsp;首页</button></a>
+        <a id="pre" th:href="@{/forminfo(page=${page.getPrePage()},formid=${form.getFormid()})}"><button  style="margin-right: 230px" class="btn btn-primary"><span aria-hidden="true">&laquo;</span>&nbsp;上一页</button></a>
+        <span style="margin-right: 230px;font-size: 18px;color: #FFFFFF" th:if="${page.getPages() > 0}" th:text="'当前第' + ${page.getPageNum()} + '/' + ${page.getPages()} + '页'"></span>
+        <span style="margin-right: 180px;font-size: 18px;color: #FFFFFF" th:if="${page.getPages() == 0}" th:text="该表单还未收到反馈"></span>
+        <a id="next" th:href="@{/forminfo(page=${page.getNextPage()},formid=${form.getFormid()})}"><button  style="margin-right: 15px" class="btn btn-primary">下一页&nbsp;<span aria-hidden="true">&raquo;</span></button></a>
+        <a th:href="@{/forminfo(page=${page.getLastPage()},formid=${form.getFormid()})}"><button class="btn btn-primary">尾页&nbsp;<span aria-hidden="true">&raquo;</span></button></a>
+    </div>
+
+
+
+</div>
+<div class="main_nav_bottom">
+    <nav  class="navbar navbar-inverse navbar-fixed-bottom">
+        <div  class="container" align="center">
+            <style>
+                .nav-tabs
+                {
+                    text-align: center;
+                    height: 40px;
+                    line-height: 40px;
+                }
+            </style>
+            <ul class="nav nav-tabs nav-tabs-justified">
+                <div class="row" align="center">
+                    <div class="col-md-4 col-sm-4 col-xs-4" align="center"><li><p><a style="text-decoration: none;color: #9d9d9d" href="#">联系作者</a></p></li></div>
+                    <div class="col-md-4 col-sm-4 col-xs-4" align="center"><li><p>© <span id="year"></span> habitdiary.cn</p></li></div>
+                    <div class="col-md-4 col-sm-4 col-xs-4" align="center"><li><p>浙ICP备17004687号</p></li></div>
+                </div>
+            </ul>
+        </div>
+    </nav>
+</div>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModa2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="myModalLabe2" style="text-align: center;font-weight: bold" th:text="${title}" class="modal-title" ></h3>
+            </div>
+            <a target="_blank" th:href="@{${link}}"><div th:text="'localhost:8080/' + ${link}" style="text-align: center;font-size: 20px;color:black" class="modal-body"></div></a>
+            <div class="modal-footer">
+                <div style="text-align:center;font-size:18px;margin-bottom:10px">以上是您的表单入口链接，可点击访问或右键复制链接</div>
+                <button  type="button"  data-dismiss="modal" class="btn btn-primary">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+
+<script>
+    //关闭click.bs.dropdown.data-api事件，使顶级菜单可点击
+    $(document).off('click.bs.dropdown.data-api');
+    //自动展开
+    $('.nav .dropdown').mouseenter(function(){
+        $(this).addClass('open');
+    });
+    //自动关闭
+    $('.nav .dropdown').mouseleave(function(){
+        $(this).removeClass('open');
+    });
+
+    var mydate = new Date();
+    $('#year').text(mydate.getFullYear());
+
+    $(document).ready(function () {
+        for(var i = 0;i < $("#pagesize").text();i++) {
+            var st = $(".feedbackstatus").eq(i).text();
+            if(st == '0'){
+                $(".feedbackstatus").eq(i).text("待处理");
+                $(".feedbackstatus").eq(i).parent().addClass("danger");
+            }else {
+                $(".feedbackstatus").eq(i).text("已处理");
+                $(".feedbackstatus").eq(i).parent().addClass("active");
+            }
+        }
+        if($("#pagenum").text() == $("#lastnum").text()) {
+            $("#next").attr("href","#");
+        }
+        if($("#pagenum").text() == "1") {
+            $("#pre").attr("href", "#");
+        }
+
+        $("#link").click(function () {
+            $('#myModa2').modal({backdrop: 'static', keyboard: true});
+            $("#myModa2").modal("show");
+        });
+        
+
+    })
+</script>
+</html>

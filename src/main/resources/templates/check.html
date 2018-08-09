@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${form.getFormname()} + ' - 表单君'"></title>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="shortcut icon" th:href="@{/img/figure.png}">
+
+</head>
+<body style="background-color: rgb(237, 240, 248); overflow-x: hidden; overflow-y: auto;">
+<div style="width:60%;margin-bottom: 15px" class="container">
+
+    <div style="box-shadow: 5px 5px 5px #888888;text-align: center;background-color: rgb(12,103,155);" class="row">
+        <h2 style="margin-bottom:20px;font-family: 微软雅黑;font-weight: 700;color:#FFFFFF" th:text="${form.getFormname()}">表单标题</h2>
+    </div>
+    <div style="margin-top: 20px" class="row">
+        <div style="text-align:center;font-size:20px" th:text="${form.getFormdesc()}">表单描述</div>
+        <hr style="border : 1px dashed gainsboro;width: 50%;margin-bottom: 0" />
+    </div>
+    <div class="row" style="margin-top: 0">
+        <div style="margin-top: 25px" class="col-md-6 col-md-offset-3">
+            <div id="size" th:text="${formDefinition.getFormItemList().size()}" style="display: none"/>
+            <form role="form" action="#"  >
+                <div th:each="formItem:${formDefinition.getFormItemList()}"  class="form-group">
+                    <label th:text="${formItem.getItemName()}" style="font-size: 20px;font-family: 微软雅黑" th:for="${formItem.getItemName()}">表单项</label><span style="color:#DA2824">&nbsp;*</span>
+                    <input   readonly   th:id="${formItem.getItemName()} " class="form-control to" />
+                </div>
+                <div style="display: none" th:each="resultItem:${result}" class="form-group">
+                    <input   readonly   th:value="${resultItem}" class="form-control from" />
+                </div>
+            </form>
+            <a style="text-decoration: none" th:href="@{/index}"><div style="margin-top: 40px;color:rgba(0,0,0,0.5);text-align: center"><img style="width: 20px;height: 20px;margin-right: 5px;margin-bottom: 5px" th:src="@{/img/figure.png}"/>由表单君提供技术支持</div></a>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</body>
+
+<script>
+
+    
+    $(document).ready(function () {
+        for(var i = 0;i < $("#size").text();i++) {
+            $(".to").eq(i).val($(".from").eq(i).val());
+        }
+
+
+    })
+
+
+
+
+
+
+</script>
+</html>

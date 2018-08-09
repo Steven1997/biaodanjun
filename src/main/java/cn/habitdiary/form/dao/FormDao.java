@@ -48,4 +48,17 @@ public interface FormDao {
      * @return
      */
     public List<Form> listForm(@Param("formid") Integer formid, @Param("uuid") String uuid, @Param("formname") String formname, @Param("userid") Integer userid);
+
+    /**
+     * 修改表单状态
+     * @param formid
+     * @param formstatus
+     */
+    public void updateFormStatus(@Param("formid") Integer formid,@Param("formstatus") Integer formstatus);
+
+    /**
+     * 删除表单
+     * @param formid
+     */
+    public void deleteForm(@Param("formid") Integer formid);
 }

@@ -24,4 +24,20 @@ public interface FeedbackDao {
      * @return
      */
     public Feedback selectFeedback(@Param("feedbackid") Integer feedbackid, @Param("formid") Integer formid,@Param("feedbackstatus") Integer feedbackstatus);
+
+    /**
+     * 改变反馈状态
+     * @param feedbackid
+     */
+    public void changeStatus(@Param("feedbackid") Integer feedbackid);
+
+    /**
+     * 查询反馈集合
+     * @param feedbackid
+     * @param formid
+     * @param feedbackstatus
+     * @return
+     */
+    public List<Feedback> listFeedbacks(@Param("feedbackid") Integer feedbackid,@Param("formid") Integer formid,@Param("feedbackstatus") Integer feedbackstatus);
+
 }

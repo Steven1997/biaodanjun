@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title th:text="${form.getFormname()} + ' - 表单君'"></title>
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="shortcut icon" href="../../img/figure.png">
+    <link rel="shortcut icon" th:href="@{/img/figure.png}">
 
 </head>
 <body style="background-color: rgb(237, 240, 248); overflow-x: hidden; overflow-y: auto;">
@@ -38,7 +38,7 @@
                 <button  style="position: relative;left: 170px;margin-top: 13px" type="submit" class="btn btn-primary btn-lg">
                     提&nbsp;&nbsp;交
                 </button>
-                <a style="text-decoration: none" th:href="@{/index}"><div style="margin-top: 40px;color:rgba(0,0,0,0.5);text-align: center"><img style="width: 20px;height: 20px;margin-right: 5px;margin-bottom: 5px" src="../../img/figure.png"/>由表单君提供技术支持</div></a>
+                <a style="text-decoration: none" th:href="@{/index}"><div style="margin-top: 40px;color:rgba(0,0,0,0.5);text-align: center"><img style="width: 20px;height: 20px;margin-right: 5px;margin-bottom: 5px" th:src="@{/img/figure.png}"/>由表单君提供技术支持</div></a>
             </form>
         </div>
     </div>

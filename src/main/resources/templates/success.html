@@ -23,7 +23,7 @@
                 <a th:href="@{'/f/' + ${userid} + '/' + ${uuid}}"><button id="back" style="position: relative;left: 170px;margin-top: 60px" type="button" class="btn btn-primary btn-lg">
                     返&nbsp;&nbsp;回
                 </button></a>
-                <a style="text-decoration: none" th:href="@{/index}"><div style="margin-top: 40px;color:rgba(0,0,0,0.5);text-align: center"><img style="width: 20px;height: 20px;margin-right: 5px;margin-bottom: 5px" src="../../img/figure.png"/>由表单君提供技术支持</div></a>
+                <a style="text-decoration: none" th:href="@{/index}"><div style="margin-top: 40px;color:rgba(0,0,0,0.5);text-align: center"><img style="width: 20px;height: 20px;margin-right: 5px;margin-bottom: 5px" th:src="@{/img/figure.png}"/>由表单君提供技术支持</div></a>
             </form>
         </div>
     </div>

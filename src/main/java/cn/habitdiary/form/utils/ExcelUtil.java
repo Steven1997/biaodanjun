@@ -180,4 +180,34 @@ public class ExcelUtil {
         String[] listArray = list.toArray(new String[list.size()]);
         return listArray;
     }
+
+    public static String[] getFillResult(String filepath,Integer rownumber){
+        FileInputStream fis = null;
+        List<String> list = new ArrayList<>();
+        try{
+            fis = new FileInputStream(new File(filepath));
+            POIFSFileSystem fs = new POIFSFileSystem(fis);
+            HSSFWorkbook workbook = new HSSFWorkbook(fs);
+            //获取工作表
+            HSSFSheet sheet = workbook.getSheetAt(0);
+            HSSFRow header = sheet.getRow(rownumber);
+            int colCnt = header.getLastCellNum();
+            for(int i = 0;i < colCnt;i++) {
+                list.add(header.getCell(i).getStringCellValue());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if(fis != null){
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        String[] listArray = list.toArray(new String[list.size()]);
+        return listArray;
+    }
 }

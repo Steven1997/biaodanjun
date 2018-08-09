@@ -12,10 +12,16 @@ import cn.habitdiary.form.utils.UUIDUtil;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.io.IOException;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -99,5 +105,62 @@ public class FormServiceImpl implements FormService {
             if(pwd.equals(form.getPassword()))
                 return true;
             return false;
+    }
+
+    @Override
+    public void changeFormStatus(Integer formid,Integer nowstatus) {
+        formDao.updateFormStatus(formid,nowstatus ^ 1);
+    }
+
+
+    @Override
+    public void delForm(Integer formid) {
+        Form form = formDao.selectForm(formid,null,null,null);
+        formDao.deleteForm(formid);
+        Integer userid = form.getCreateUser().getUserid();
+        String uuid = form.getUuid();
+        String formname = form.getFormname();
+        String formpath = rootLocation + "/" + userid + "/" + formname +
+                "(" + uuid + ")" + ".xls";
+        File formfile = new File(formpath);
+        if(formfile.exists() && formfile.isFile())
+            formfile.delete();
+        String objectpath = rootLocation + "/" + userid + "/" + formname +
+                "(" + uuid + ")" + ".txt";
+        File objectfile = new File(objectpath);
+        if(objectfile.exists() && objectfile.isFile())
+            objectfile.delete();
+    }
+
+    @Override
+    public ResponseEntity<byte[]> downloadForm(Integer formid) {
+        Form form = formDao.selectForm(formid,null,null,null);
+        Integer userid = form.getCreateUser().getUserid();
+        String uuid = form.getUuid();
+        String formname = form.getFormname();
+        String formpath = rootLocation + "/" + userid + "/" + formname +
+                "(" + uuid + ")" + ".xls";
+        File file = new File(formpath);
+        try(InputStream in = new FileInputStream(file);) {
+            byte[] body = null;
+            // 获取文件
+            body = new byte[in.available()];
+            in.read(body);
+            HttpHeaders headers = new HttpHeaders();
+            // 设置文件类型
+            // 解决中文乱码问题
+            String fileName = new String((formname +
+                    "(" + uuid + ")" + ".xls").getBytes("utf-8"), "iso-8859-1");
+
+            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+            headers.setContentDispositionFormData("attachment", fileName);
+            HttpStatus statusCode = HttpStatus.OK;
+            ResponseEntity<byte[]> entity = new ResponseEntity<>(body, headers, statusCode);
+            return entity;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+
     }
 }

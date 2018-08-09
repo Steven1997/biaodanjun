@@ -32,6 +32,24 @@
         </collection>
     </resultMap>
 
+    <resultMap id="FormMap2" type="Form">
+        <id property="formid" column="formid"/>
+        <result property="uuid" column="uuid"/>
+        <result property="formname" column="formname"/>
+        <result property="formpath" column="formpath"/>
+        <result property="formstatus" column="formstatus"/>
+        <result property="formdesc" column="formdesc"/>
+        <result property="begintime" column="begintime"/>
+        <result property="endtime" column="endtime"/>
+        <result property="password" column="pwd"/>
+        <association property="createUser" javaType="User">
+            <id property="userid" column="userid"/>
+            <result property="username" column="username"/>
+            <result property="password" column="password"/>
+            <result property="email" column="email"/>
+        </association>
+    </resultMap>
+
     <select id="selectForm" resultMap="FormMap">
         SELECT
         a.userid,a.username,a.password,a.email,b.formid,b.uuid,b.formname,b.formpath,
@@ -55,14 +73,12 @@
             </if>
     </select>
 
-    <select id="listForm" resultMap="FormMap">
+    <select id="listForm" resultMap="FormMap2">
         SELECT
         a.userid,a.username,a.password,a.email,b.formid,b.uuid,b.formname,b.formpath,
-        b.formstatus,b.formdesc,b.begintime,b.endtime,b.password AS pwd,c.feedbackid,c.rownumber,
-        c.feedbacktime,c.feedbackstatus
+        b.formstatus,b.formdesc,b.begintime,b.endtime,b.password AS pwd
         FROM
         sform b LEFT JOIN suser a ON a.userid = b.userid
-        LEFT JOIN sfeedback c ON b.formid = c.formid
         WHERE 1 = 1
         <if test="formid != null">
             AND  b.formid = #{formid}
@@ -76,6 +92,15 @@
         <if test="userid != null">
             AND a.userid = #{userid}
         </if>
+        ORDER BY b.formid ASC
     </select>
+    
+    <update id="updateFormStatus">
+        UPDATE sform SET formstatus = #{formstatus} WHERE formid = #{formid}
+    </update>
+    
+    <delete id="deleteForm" parameterType="java.lang.Integer">
+        DELETE FROM sform WHERE formid = #{formid}
+    </delete>
 
 </mapper>

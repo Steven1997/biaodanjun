@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class FeedbackServiceImpl implements FeedbackService {
@@ -30,5 +31,22 @@ public class FeedbackServiceImpl implements FeedbackService {
     @Override
     public Feedback selectFeedback(Integer feedbackid, Integer formid,Integer feedbackstatus) {
         return feedbackDao.selectFeedback(feedbackid,formid,feedbackstatus);
+    }
+
+    @Override
+    public String[] getFillResult(Integer userid, String uuid, String formname, Integer rownumber) {
+        String path = rootLocation + "/" + userid + "/" + formname +
+                "(" + uuid + ")" + ".xls";
+        return ExcelUtil.getFillResult(path,rownumber);
+    }
+
+    @Override
+    public void changeStatus(Integer feedbackid) {
+        feedbackDao.changeStatus(feedbackid);
+    }
+
+    @Override
+    public List<Feedback> listFeedbacks(Integer feedbackid, Integer formid, Integer feedbackstatus) {
+        return feedbackDao.listFeedbacks(feedbackid,formid,feedbackstatus);
     }
 }
