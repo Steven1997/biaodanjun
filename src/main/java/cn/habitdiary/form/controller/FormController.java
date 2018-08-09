@@ -252,5 +252,35 @@ public class FormController {
                 return formService.downloadForm(formid);
             }
 
+        /**
+         * 根据名称模糊搜索
+         * @param value
+         * @param model
+         * @return
+         */
+        @PostMapping(value = "/doNameSearch")
+        public String doNameSearch(@RequestParam("value") String value, Model model) throws JSONException {
+                value = value.trim();
+                List<Form> formList = formService.searchByName(value);
+                model.addAttribute("formList",formList);
+            return "result";
+        }
+
+
+    /**
+     * 根据发布者模糊搜索
+     * @param value
+     * @param model
+     * @return
+     */
+    @PostMapping(value = "/doAuthorSearch")
+    public String doAuthorSearch(@RequestParam("value") String value, Model model)  {
+        value = value.trim();
+        List<Form> formList = formService.searchByAuthor(value);
+        model.addAttribute("formList",formList);
+
+        return "result";
+    }
+
 
 }

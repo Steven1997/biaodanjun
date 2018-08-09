@@ -87,5 +87,18 @@ public interface FormService {
     public ResponseEntity<byte[]> downloadForm(Integer formid);
 
 
+    /**
+     * 按名称模糊搜索
+     * @param formname
+     * @return
+     */
+    public List<Form> searchByName(String formname);
+
+    /**
+     * 按发布者模糊搜索
+     * @param authorname
+     * @return
+     */
+    public List<Form> searchByAuthor(String authorname);
 
 }

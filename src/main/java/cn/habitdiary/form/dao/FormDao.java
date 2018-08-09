@@ -61,4 +61,13 @@ public interface FormDao {
      * @param formid
      */
     public void deleteForm(@Param("formid") Integer formid);
+
+
+    /**
+     * 模糊搜素表单
+     * @param formname
+     * @param username
+     * @return
+     */
+    public List<Form> searchForm(@Param("formname") String formname,@Param("username") String username);
 }

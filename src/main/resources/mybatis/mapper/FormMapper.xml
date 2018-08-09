@@ -94,6 +94,22 @@
         </if>
         ORDER BY b.formid ASC
     </select>
+
+    <select id="searchForm" resultMap="FormMap2">
+        SELECT
+        a.userid,a.username,a.password,a.email,b.formid,b.uuid,b.formname,b.formpath,
+        b.formstatus,b.formdesc,b.begintime,b.endtime,b.password AS pwd
+        FROM
+        sform b LEFT JOIN suser a ON a.userid = b.userid
+        WHERE 1 = 1
+        <if test="formname != null">
+            AND b.formname LIKE CONCAT('%',#{formname},'%')
+        </if>
+        <if test="username != null">
+            AND a.username LIKE CONCAT('%',#{username},'%')
+        </if>
+        ORDER BY b.formid ASC
+    </select>
     
     <update id="updateFormStatus">
         UPDATE sform SET formstatus = #{formstatus} WHERE formid = #{formid}

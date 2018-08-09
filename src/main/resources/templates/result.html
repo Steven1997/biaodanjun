@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>搜索表单 - 表单君</title>
+    <title>搜索结果 - 表单君</title>
 
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link th:href="@{css/style.css}" rel="stylesheet">
@@ -18,7 +18,7 @@
             <ul class="nav navbar-nav">
                 <li><a style="margin-left: 50px" th:href="@{/index}">首页<span class="sr-only">(current)</span></a></li>
                 <li><a th:href="@{/design}">设计表单</a></li>
-                <li  class="active"><a th:href="@{/search}">搜索表单</a></li>
+                <li><a th:href="@{/search}">搜索表单</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li th:if="${session.loginUser != null}"><p>欢迎您</p></li>
@@ -36,26 +36,43 @@
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>
+<div style="width: 60%;position: relative;left: 20%;top: 100px;margin-bottom: 120px">
+    <a th:href="@{/search}"><button class="btn btn-danger col-md-1"> <span aria-hidden="true">&laquo;</span>&nbsp;返回</button></a>
+    <h2 style="width: 50%;font-weight: bolder;position: relative;left: 33%">搜索结果</h2>
+    <table style="background-color: #FFFFFF;text-align: center" class="table table-hover table-bordered">
+        <thead>
+        <tr style="font-size: 20px;background-color: rgb(12,103,155);color: #FFFFFF">
+            <th  style="text-align: center">表单名</th>
+            <th  style="text-align: center">发布者</th>
+            <th  style="text-align: center">开始时间</th>
+            <th  style="text-align: center">结束时间</th>
+            <th  style="text-align: center">进行状态</th>
+            <th  style="text-align: center">表单链接</th>
+        </tr>
+        </thead>
+        <tbody>
+        <div id="size" style="display: none;" th:text="${formList.size()}"></div>
+        <tr style="font-size: large" th:each="form:${formList}">
+            <td th:text="${form.getFormname()}"></td>
+            <td th:text="${form.getCreateUser().getUsername()}"></td>
+            <td class="begintime" th:text="${form.getBegintime()}"></td>
+            <td class="endtime" th:text="${form.getEndtime()}"></td>
+            <td class="formstatus" th:text="${form.getFormstatus()}"></td>
+            <td class="op">
+                <a target="_blank" th:href="@{'/f/' + ${form.getCreateUser().getUserid()} + '/' + ${form.getUuid()}}"><button  class="btn btn-warning">表单链接&nbsp;<span class="glyphicon glyphicon-link"></span></button></a>
+            </td>
+        </tr>
+        </tbody>
 
 
-<div class="container">
-    <h1 style="font-size: 50px;font-weight: bold;position: absolute;top: 25%;left: 43%;font-family: 楷体">搜索表单</h1>
-    <div style="position: relative;top:300px" class="row">
-            <div>
-            <form  action="/doNameSearch" method="post">
-                <input required style="width: 70%" name="value" type="text" class="form-control input-lg col-md-6">
+    </table>
 
-                    <button type="submit" class="btn btn-info btn-lg"  role="button">
-                      按名称搜索&nbsp;<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                    </button>
-                    <button onclick="this.form.action='/doAuthorSearch'" class="btn btn-danger btn-lg"  role="button">
-                      按发布者搜索&nbsp;<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                    </button>
-            </form>
-
-
-            </div>
+    <div>
+        <span style="position:relative;left: 41%;font-size: 18px;color: #000000" th:if="${formList.size() == 0}" th:text="没有符合条件的结果"></span>
     </div>
+
+
+
 </div>
 <div class="main_nav_bottom">
     <nav  class="navbar navbar-inverse navbar-fixed-bottom">
@@ -82,6 +99,8 @@
 
 
 
+
+
 <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
@@ -100,6 +119,34 @@
 
     var mydate = new Date();
     $('#year').text(mydate.getFullYear());
+
+
+    $(document).ready(function () {
+        var now = new Date().getTime();
+        for(var i = 0;i < $("#size").text();i++) {
+            var bg =  new Date($(".begintime").eq(i).text()).getTime();
+            var ed =  new Date($(".endtime").eq(i).text()).getTime();
+            var st = $(".formstatus").eq(i).text();
+            if(now < bg){
+                $(".formstatus").eq(i).text("未开始");
+                $(".formstatus").eq(i).parent().addClass("info");
+
+            }else if(now <= ed) {
+                if(st == '0'){
+                    $(".formstatus").eq(i).text("进行中");
+                    $(".formstatus").eq(i).parent().addClass("success");
+                }else {
+                    $(".formstatus").eq(i).text("已暂停");
+                    $(".formstatus").eq(i).parent().addClass("danger");
+                }
+            }else {
+                $(".formstatus").eq(i).text("已结束");
+                $(".formstatus").eq(i).parent().addClass("active");
+
+            }
+        }
+      })
+
 
 
 

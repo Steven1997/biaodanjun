@@ -162,4 +162,16 @@ public class FormServiceImpl implements FormService {
         }
 
     }
+
+    @Override
+    public List<Form> searchByName(String formname) {
+        formname = formname.replaceAll("%","\\\\%");
+        return formDao.searchForm(formname,null);
+    }
+
+    @Override
+    public List<Form> searchByAuthor(String username) {
+        username = username.replaceAll("%","\\\\%");
+        return formDao.searchForm(null,username);
+    }
 }
