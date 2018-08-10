@@ -54,4 +54,22 @@ public class IndexController {
         return "register";
     }
 
+    /**
+     * 访问修改密码页面
+     * @return
+     */
+    @GetMapping("/changePassword")
+    public String changePassword() {
+        return "changePassword";
+    }
+
+    /**
+     * 访问忘记密码页面
+     * @return
+     */
+    @GetMapping("/forgetPassword")
+    public String forgetPassword() {
+        return "forgetPassword";
+    }
+
 }

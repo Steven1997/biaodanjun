@@ -15,6 +15,7 @@ import java.util.Properties;
 public class FormApplication {
 
 	public static void main(String[] args) {
+		System.setProperty("mail.mime.splitlongparameters", "false");
 		SpringApplication.run(FormApplication.class, args);
 	}
 

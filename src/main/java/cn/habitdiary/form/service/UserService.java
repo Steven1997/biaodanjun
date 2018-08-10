@@ -35,4 +35,11 @@ public interface UserService {
      * @param user
      */
     public void addUser(User user);
+
+    /**
+     * 修改密码
+     * @param username
+     * @param newPwd
+     */
+    public void changePassword(String username,String newPwd);
 }

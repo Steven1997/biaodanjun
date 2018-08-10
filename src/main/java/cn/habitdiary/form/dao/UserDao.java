@@ -23,4 +23,13 @@ public interface UserDao {
      * @param user
      */
     public void addUser(User user);
+
+    /**
+     * 修改密码
+     * @param username
+     * @param newPwd
+     */
+    public void changePassword(@Param("username") String username,@Param("newPwd") String newPwd);
+
+
 }

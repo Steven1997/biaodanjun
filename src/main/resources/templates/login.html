@@ -16,14 +16,14 @@
 <!-- Top content -->
 <div class="top-content">
 
-    <div class="inner-bg">
+    <div style="padding-top: 45px" class="inner-bg">
         <div class="container">
-            <div class="row">
+            <div  class="row">
                 <div class="col-sm-8 col-sm-offset-2 text">
                     <h1 style="color: #555555">用户登录</h1>
                 </div>
             </div>
-            <div class="row">
+            <div  class="row">
                 <div style="margin-top: 0" class="col-sm-6 col-sm-offset-3 form-box">
                     <div class="form-top">
                         <div class="form-top-left">
@@ -72,10 +72,10 @@
                                     <label>记住我</label>
                                 </div>
                                 <div class="form-group col-md-3 col-md-offset-3">
-                                    <a href="#">修改密码</a>
+                                    <a th:href="@{/changePassword}">修改密码</a>
                                 </div>
                                 <div class="form-group col-md-3 col-md-offset-0">
-                                    <a href="#">忘记密码？</a>
+                                    <a th:href="@{/forgetPassword}">忘记密码？</a>
                                 </div>
                             </div>
 

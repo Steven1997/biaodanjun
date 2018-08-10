@@ -53,4 +53,8 @@
         INSERT INTO suser(username,email,password) VALUES(#{username},#{email},#{password})
     </insert>
 
+    <update id="changePassword">
+        UPDATE suser SET password = #{newPwd} WHERE username = #{username}
+    </update>
+
 </mapper>

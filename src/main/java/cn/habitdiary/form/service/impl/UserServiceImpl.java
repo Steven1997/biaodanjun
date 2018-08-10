@@ -34,4 +34,9 @@ public class UserServiceImpl implements UserService {
     public User selectUser(Integer userid, String username, String email) {
         return userDao.selectUser(userid,username,email);
     }
+
+    @Override
+    public void changePassword(String username, String newPwd) {
+        userDao.changePassword(username,newPwd);
+    }
 }

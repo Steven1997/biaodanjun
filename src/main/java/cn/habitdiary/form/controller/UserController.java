@@ -2,6 +2,8 @@ package cn.habitdiary.form.controller;
 import cn.habitdiary.form.entity.User;
 import cn.habitdiary.form.service.UserService;
 import cn.habitdiary.form.utils.CookieUtil;
+import cn.habitdiary.form.utils.EmailUtil;
+import cn.habitdiary.form.utils.UUIDUtil;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.json.JSONException;
@@ -20,6 +22,10 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 用户控制器
@@ -31,6 +37,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private EmailUtil emailUtil;
 
     /**
      * 检查用户名是否已被注册
@@ -105,6 +114,7 @@ public class UserController {
         return data.toString();
     }
 
+
     /**
      * 登录
      * @param json
@@ -178,6 +188,96 @@ public class UserController {
     }
 
     /**
+     * 尝试登录
+     * @param json
+     * @return
+     * @throws JSONException
+     */
+    @PostMapping(value = "/tryLogin", produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public String tryLogin(@RequestBody String json) throws JSONException {
+        JSONObject jsonObject = new JSONObject(json);
+        JSONObject data = new JSONObject();
+        String username = (String)jsonObject.get("username");
+        String password = (String)jsonObject.get("password");
+        String shapwd = DigestUtils.sha1Hex(password);
+        User user = userService.selectUser(null,username,null);
+
+        if(user != null){
+            if(shapwd.equals(user.getPassword())){
+                data.put("msg","ok");
+            }
+            else{
+                data.put("msg","no");
+            }
+        }
+        else{
+            data.put("msg","no");
+        }
+        return data.toString();
+
+    }
+
+
+    /**
+     * 修改密码
+     * @param json
+     * @return
+     * @throws JSONException
+     */
+    @PostMapping(value = "/doChange", produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public String doChange(@RequestBody String json) throws JSONException {
+        System.out.println(json);
+        JSONObject jsonObject = new JSONObject(json);
+        JSONObject data = new JSONObject();
+        String username = (String)jsonObject.get("username");
+        String newPwd = (String)jsonObject.get("newPwd");
+        String shapwd = DigestUtils.sha1Hex(newPwd);
+        userService.changePassword(username,shapwd);
+        data.put("title","修改成功");
+        data.put("content","快去登陆吧！");
+
+        return data.toString();
+
+    }
+
+
+    @PostMapping(value = "/findBack", produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public String findBack(@RequestBody String json) throws JSONException {
+        JSONObject jsonObject = new JSONObject(json);
+        JSONObject data = new JSONObject();
+        String username = (String)jsonObject.get("username");
+        User user = userService.selectUser(null,username,null);
+       String email = user.getEmail();
+        String newPwd = UUIDUtil.getUUID().substring(0,16);
+        String shapwd = DigestUtils.sha1Hex(newPwd);
+        userService.changePassword(username,shapwd);
+        Map<String,Object> mp = new HashMap<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String date = sdf.format(new Date());
+        mp.put("date",date);
+        mp.put("username",username);
+        mp.put("password",newPwd);
+        emailUtil.sendTemplateMail(email,"表单君找回密码","findBack",mp);
+        data.put("title","操作成功");
+        data.put("body1","临时密码已发送到您的邮箱：" + email);
+        data.put("body2","请尽快前往修改密码");
+
+
+        return data.toString();
+
+    }
+
+
+
+
+
+
+
+
+    /**
      * 退出登录
      * @param session
      * @param sessionStatus
@@ -190,6 +290,8 @@ public class UserController {
         CookieUtil.removeCookie(httpServletRequest,httpServletResponse,"password");
         return "redirect:/index";
     }
+
+
 
 
 
