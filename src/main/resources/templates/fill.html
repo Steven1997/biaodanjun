@@ -90,6 +90,12 @@
 
 <script>
 
+    $("body").keydown(function() {
+        if (event.keyCode == "13") {
+            $('#confirm').click();
+        }
+    });
+
         $(document).ready(function () {
             if($("#formstatus").val() == '0'){
                 var now = new Date().getTime();

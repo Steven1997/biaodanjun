@@ -52,13 +52,27 @@ public class EmailUtil {
             String fileName = formname + "-表单君反馈导出.xls";
             FileSystemResource file = new FileSystemResource(new File(filePath));
             helper.addAttachment(fileName, file);
-
             mailSender.send(message);
         } catch (MessagingException e) {
         }
     }
 
     private void sendFindBackMail(String toBody, String subject, String content,Map<String,Object> variables) {
+        MimeMessage message = mailSender.createMimeMessage();
+
+        try {
+            //true表示需要创建一个multipart message
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setFrom(nickname + "<" + fromBody + ">");
+            helper.setTo(toBody);
+            helper.setSubject(subject);
+            helper.setText(content, true);
+            mailSender.send(message);
+        } catch (MessagingException e) {
+        }
+    }
+
+    private void sendGreetingMail(String toBody, String subject, String content,Map<String,Object> variables) {
         MimeMessage message = mailSender.createMimeMessage();
 
         try {
@@ -80,8 +94,10 @@ public class EmailUtil {
         String emailContent = templateEngine.process(templateName,context);
         if(variables.keySet().contains("formname")){
             sendHtmlWithFileMail(toBody,subject,emailContent,variables);
-        }else if(variables.keySet().contains("password")){
-            sendFindBackMail(toBody,subject,emailContent,variables);
+        } else if (variables.keySet().contains("password")) {
+            sendFindBackMail(toBody, subject, emailContent, variables);
+        } else {
+            sendGreetingMail(toBody,subject,emailContent,variables);
         }
 
     }

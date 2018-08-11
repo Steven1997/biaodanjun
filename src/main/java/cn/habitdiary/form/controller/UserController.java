@@ -109,6 +109,12 @@ public class UserController {
         userService.addUser(user);
         user = userService.selectUser(null,username,null);
         session.setAttribute("loginUser",user);
+        Map<String,Object> mp = new HashMap<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String date = sdf.format(new Date());
+        mp.put("date",date);
+        mp.put("username",username);
+        emailUtil.sendTemplateMail(email,username + "，很高兴认识你","greeting",mp);
         data.put("title","注册成功");
         data.put("content","欢迎来到表单君的世界");
         return data.toString();
