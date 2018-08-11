@@ -37,13 +37,14 @@ nickname: 表单君
 
 
 
+
 # 配置mybatis
 mybatis:
   config-location: classpath:mybatis/mybatis-config.xml
   mapper-locations: classpath:mybatis/mapper/*.xml
   type-aliases-package: cn.habitdiary.form.entity
 # 文件根目录
-root-location: D:/formspace
+root-location: /home/ubuntu/biaodanjun/formspace
 
 pagehelper:
   helper-dialect: mysql

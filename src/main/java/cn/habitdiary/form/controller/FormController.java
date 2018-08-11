@@ -146,7 +146,7 @@ public class FormController {
                 String uuid = formService.addForm(formname,formdesc,begintime,endtime,password,loginUser,name,info);
                 Integer formid = formService.selectForm(null,uuid,formname,null).getFormid();
                 model.addAttribute("title",formname);
-                model.addAttribute("link","http://localhost:8080/f/" + loginUser.getUserid() + "/" + uuid);
+                model.addAttribute("link","http://www.habitdiary.cn:8080/f/" + loginUser.getUserid() + "/" + uuid);
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                 Date endDate = simpleDateFormat.parse(endtime);
                 Calendar calendar = Calendar.getInstance();

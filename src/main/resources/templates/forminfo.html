@@ -41,7 +41,7 @@
     <div style="display: none" id="lastnum" th:text="${page.getLastPage()}"></div>
     <div style="display: none" id="pagesize" th:text="${page.getPageSize()}"></div>
     <button id="link" class="btn btn-info btn-lg">查看表单链接&nbsp;<span class="glyphicon glyphicon-link"></span></button>
-    <a th:href="@{ignore(formid=${form.getFormid()})}"><button id="ignore" style="position: relative;left: 70%" class="btn btn-danger btn-lg">全部已读</button></a>
+    <a th:href="@{ignore(formid=${form.getFormid()})}"><button id="ignore" style="position: relative;left: 70%" class="btn btn-danger btn-lg">全部设为已读</button></a>
     <h2 style="width: 50%;font-weight: bolder;text-align: center;position: relative;left: 25%" th:text="${form.getFormname()} + '信息及反馈'"></h2>
     <table style="background-color: #FFFFFF;text-align: center" class="table table-hover table-bordered">
         <thead>
@@ -109,7 +109,7 @@
             <div class="modal-header">
                 <h3 id="myModalLabe2" style="text-align: center;font-weight: bold" th:text="${title}" class="modal-title" ></h3>
             </div>
-            <a target="_blank" th:href="@{${link}}"><div th:text="'localhost:8080/' + ${link}" style="text-align: center;font-size: 20px;color:black" class="modal-body"></div></a>
+            <a target="_blank" th:href="@{${link}}"><div th:text="'www.habitdiary.cn:8080/' + ${link}" style="text-align: center;font-size: 20px;color:black" class="modal-body"></div></a>
             <div class="modal-footer">
                 <div style="text-align:center;font-size:18px;margin-bottom:10px">以上是您的表单入口链接，可点击访问或右键复制链接</div>
                 <button  type="button"  data-dismiss="modal" class="btn btn-primary">关闭</button>
